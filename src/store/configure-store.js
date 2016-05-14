@@ -5,15 +5,17 @@ import thunk from 'redux-thunk';
 import promiseMiddleware from '../middleware/promise-middleware';
 import logger from './logger';
 import rootReducer from '../reducers';
+import createSagaMiddleware from 'redux-saga';
 
 function configureStore(initialState) {
+  const sagaMiddleware = createSagaMiddleware();
   const store = compose(
-    _getMiddleware(),
+    applyMiddleware(..._getMiddleware(), sagaMiddleware),
     ..._getEnhancers()
   )(createStore)(rootReducer, initialState);
 
   _enableHotLoader(store);
-  return store;
+  return { ...store, runSaga: sagaMiddleware.run };
 }
 
 function _getMiddleware() {
@@ -26,7 +28,7 @@ function _getMiddleware() {
     middleware = [...middleware, logger];
   }
 
-  return applyMiddleware(...middleware);
+  return middleware;
 }
 
 function _getEnhancers() {

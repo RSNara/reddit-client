@@ -1,12 +1,12 @@
 import React from 'react';
-import { IndexRoute, Route } from 'react-router';
-import App from '../containers/app';
-import AboutPage from '../containers/about-page';
-import CounterPage from '../containers/counter-page';
+import { Route } from 'react-router';
+import Main from '../containers/Main';
+import { SUBREDDITS } from '../constants';
 
-export default (
-  <Route path="/" component={ App }>
-    <IndexRoute component={ CounterPage }/>
-    <Route path="about" component={ AboutPage }/>
-  </Route>
+export default (store) => (
+  <Route path="/" component={ Main } onEnter={fetchDefaultSubreddits(store)} />
 );
+
+function fetchDefaultSubreddits(store) {
+  return () => store.dispatch({ type: SUBREDDITS.FETCH_DEFAULT });
+}
