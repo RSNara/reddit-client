@@ -1,12 +1,52 @@
 import React from 'react';
 import { Route } from 'react-router';
 import Main from '../containers/Main';
+import SubredditThreads from '../containers/subreddit-threads';
+import SubredditThreadComments from '../containers/subreddit-thread-comments';
 import { SUBREDDITS } from '../constants';
+import {
+  doesStateHaveSubredditThreads,
+  doesStateHaveSubredditThreadComments,
+} from '../selectors/main';
 
 export default (store) => (
-  <Route path="/" component={ Main } onEnter={fetchDefaultSubreddits(store)} />
+  <Route path="/" component={ Main } onEnter={fetchDefaultSubreddits(store)}>
+    <Route path="r/:subreddit" component={SubredditThreads} onEnter={fetchSubredditThreads(store)} />
+    <Route path="r/:subreddit/:thread/comments" component={SubredditThreadComments} onEnter={fetchSubredditThreadComments(store)} />
+  </Route>
 );
 
 function fetchDefaultSubreddits(store) {
   return () => store.dispatch({ type: SUBREDDITS.FETCH_DEFAULT });
+}
+
+function fetchSubredditThreads(store) {
+  return ({ params: { subreddit } = {} }) => {
+    const state = store.getState();
+    const shouldFetchThreads = ! doesStateHaveSubredditThreads(state, subreddit);
+    if (shouldFetchThreads) {
+      store.dispatch({
+        type: SUBREDDITS.FETCH_THREADS,
+        payload: {
+          subreddit: subreddit,
+        },
+      });
+    }
+  };
+}
+
+function fetchSubredditThreadComments(store) {
+  return ({ params: { subreddit, thread } = {} }) => {
+    const state = store.getState();
+    const shouldFetchSubredditThreadComments = ! doesStateHaveSubredditThreadComments(state, subreddit, thread);
+    if (shouldFetchSubredditThreadComments) {
+      store.dispatch({
+        type: SUBREDDITS.FETCH_THREAD_COMMENTS,
+        payload: {
+          subreddit: subreddit,
+          thread: thread,
+        },
+      });
+    }
+  };
 }

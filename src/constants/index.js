@@ -11,6 +11,10 @@ export const FORM_RESET = 'redux-form/RESET';
 export const SUBREDDITS = createActions('Subreddits', [
   'FETCH_DEFAULT',
   'SAVE_DEFAULT',
+  'FETCH_THREADS',
+  'SAVE_THREADS',
+  'SAVE_THREAD_COMMENTS',
+  'FETCH_THREAD_COMMENTS',
 ]);
 
 function createActions(ns, actions) {
