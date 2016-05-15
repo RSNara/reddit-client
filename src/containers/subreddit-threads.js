@@ -6,17 +6,22 @@ import { Link } from 'react-router';
 
 const SubredditThreads = ({ params: { subreddit }, threads }) => {
   return (
-    <ul>
+    <table>
+      <tbody>
       {
         threads.map((thread, i) => (
-          <li key={i}>
-            <Link to={`/r/${subreddit}/${thread.get('id')}/comments`}>
-              {thread.get('title')}
-            </Link>
-          </li>
+          <tr key={i}>
+            <td>[{thread.get('score')}]</td>
+            <td>
+              <Link to={`/r/${subreddit}/${thread.get('id')}/comments`}>
+                {thread.get('title')}
+              </Link>
+            </td>
+          </tr>
         ))
       }
-    </ul>
+      </tbody>
+    </table>
   );
 };
 
@@ -29,6 +34,6 @@ SubredditThreads.propTypes = {
 
 export default connect(
   (state, { params: { subreddit } }) => ({
-    threads: getFieldsOfSubredditThreads(state, subreddit, [ 'title', 'id']),
+    threads: getFieldsOfSubredditThreads(state, subreddit, [ 'title', 'id', 'score' ]),
   }),
 )(SubredditThreads);

@@ -5,7 +5,6 @@ import SubredditThreads from '../containers/subreddit-threads';
 import SubredditThreadComments from '../containers/subreddit-thread-comments';
 import { SUBREDDITS } from '../constants';
 import {
-  doesStateHaveSubredditThreads,
   doesStateHaveSubredditThreadComments,
 } from '../selectors/main';
 
@@ -22,16 +21,13 @@ function fetchDefaultSubreddits(store) {
 
 function fetchSubredditThreads(store) {
   return ({ params: { subreddit } = {} }) => {
-    const state = store.getState();
-    const shouldFetchThreads = ! doesStateHaveSubredditThreads(state, subreddit);
-    if (shouldFetchThreads) {
-      store.dispatch({
-        type: SUBREDDITS.FETCH_THREADS,
-        payload: {
-          subreddit: subreddit,
-        },
-      });
-    }
+    // Always re-fetch subreddit threads when you visit route
+    store.dispatch({
+      type: SUBREDDITS.FETCH_THREADS,
+      payload: {
+        subreddit: subreddit,
+      },
+    });
   };
 }
 

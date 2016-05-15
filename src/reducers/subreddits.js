@@ -10,14 +10,22 @@ const subreddits = handleActions({
 
   [SUBREDDITS.SAVE_THREADS]: (state, { payload }) => {
     const { subreddit, threads } = payload;
-    return state.setIn(['threads', subreddit], threads);
+    return state.updateIn(['threads', subreddit], indexedUpsert(threads));
   },
 
   [SUBREDDITS.SAVE_THREAD_COMMENTS]: (state, { payload }) => {
     const { subreddit, thread, comments } = payload;
-    return state.setIn(['comments', subreddit, thread], comments);
+    return state.updateIn(['comments', subreddit, thread], indexedUpsert(comments));
   },
 
 }, Map());
+
+function indexedUpsert(items) {
+  return (old = Map()) => (
+    items.reduce((table, item) => (
+      table.set(item.getIn(['data', 'id']), item)
+    ), old)
+  );
+}
 
 export default subreddits;

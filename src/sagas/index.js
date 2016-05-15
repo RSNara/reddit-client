@@ -32,6 +32,7 @@ function* fetchSubredditThreads({ payload: { subreddit } }) {
 function* fetchSubredditThreadComments({ payload: { subreddit, thread } }) {
   const response = yield fetch(`/reddit/r/${subreddit}/comments/${thread}`);
   const comments = yield response.json();
-  expect(comments).to.have.length(2);
+  expect(comments).to.have.length(2); // first item is the thread
+  yield put(saveSubredditThreads(subreddit, fromJS(comments[0].data.children)));
   yield put(saveSubredditThreadComments(subreddit, thread, fromJS(comments[1].data.children)));
 }

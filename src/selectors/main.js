@@ -8,12 +8,17 @@ export const getDefaultSubredditTitles = createSelector(
   (subreddits) => subreddits.map(sub => sub.getIn(['data', 'display_name']))
 );
 
-export const getSubredditThreads = (state, subreddit) => state.subreddits.getIn(['threads', subreddit], List());
+export const getSubredditThread = (state, subreddit, id) => state.subreddits.getIn(['threads', subreddit, id]);
+export const getSubredditThreads = (state, subreddit) => state.subreddits.getIn(['threads', subreddit], Map()).toList();
 export const doesStateHaveSubredditThreads = (state, subreddit) => state.subreddits.hasIn(['threads', subreddit]);
 
 export const getSubObject = (map, fields) => map.reduce((table, value, key) => (
   fields.includes(key) ? table.set(key, value) : table
 ), Map());
+
+export const getFieldsOfSubredditThread = (state, subreddit, threadId, fields) => (
+  getSubObject((getSubredditThread(state, subreddit, threadId) || Map()).get('data', Map()), fields)
+);
 
 export const getFieldsOfSubredditThreads = (state, subreddit, fields) => (
   getSubredditThreads(state, subreddit).map(thread => getSubObject(thread.get('data'), fields))
@@ -21,7 +26,7 @@ export const getFieldsOfSubredditThreads = (state, subreddit, fields) => (
 
 export const doesStateHaveSubredditThreadComments = (state, subreddit, thread) => state.subreddits.hasIn(['comments', thread]);
 export const getSubredditThreadComments = (state, subreddit, thread) => (
-  state.subreddits.getIn(['comments', subreddit, thread], List())
+  state.subreddits.getIn(['comments', subreddit, thread], Map()).toList()
 );
 
 export const getFieldsOfSubredditThreadComments = (state, subreddit, thread, fields) => (
