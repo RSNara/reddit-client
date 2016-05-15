@@ -7,13 +7,13 @@ import { Link } from 'react-router';
 const Main = ({ defaultSubredditTitles, children }) => {
   return (
     <div>
-      <ul>
+      <div className="flex bg-silver">
         {
           defaultSubredditTitles.map((title, i) => (
-            <Link key={i} to={`/r/${title}`}> {title} </Link>
+            <Link className="h6 btn btn-outline p0 mx1" key={i} to={`/r/${title}`}> {title} </Link>
           ))
         }
-      </ul>
+      </div>
       <div className="px3">
         { children }
       </div>
