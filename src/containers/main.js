@@ -14,7 +14,7 @@ const Main = ({ defaultSubredditTitles, children }) => {
           ))
         }
       </div>
-      <div className="px3">
+      <div className="p3">
         { children }
       </div>
     </div>

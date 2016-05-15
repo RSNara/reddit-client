@@ -2,26 +2,17 @@ import React, { PropTypes } from 'react';
 import { List } from 'immutable';
 import { connect } from 'react-redux';
 import { getFieldsOfSubredditThreads } from '../selectors/main';
-import { Link } from 'react-router';
+import ThreadCard from '../components/thread-card';
 
 const SubredditThreads = ({ params: { subreddit }, threads }) => {
   return (
-    <table>
-      <tbody>
+    <div>
       {
         threads.map((thread, i) => (
-          <tr key={i}>
-            <td>[{thread.get('score')}]</td>
-            <td>
-              <Link to={`/r/${subreddit}/${thread.get('id')}/comments`}>
-                {thread.get('title')}
-              </Link>
-            </td>
-          </tr>
+          <ThreadCard thread={thread} key={i} subreddit={subreddit} />
         ))
       }
-      </tbody>
-    </table>
+    </div>
   );
 };
 
@@ -34,6 +25,8 @@ SubredditThreads.propTypes = {
 
 export default connect(
   (state, { params: { subreddit } }) => ({
-    threads: getFieldsOfSubredditThreads(state, subreddit, [ 'title', 'id', 'score' ]),
+    threads: getFieldsOfSubredditThreads(state, subreddit, [
+      'title', 'id', 'score', 'author', 'thumbnail', 'selftext', 'url', 'is_self', 'num_comments',
+    ]),
   }),
 )(SubredditThreads);

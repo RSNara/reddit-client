@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import 'font-awesome-webpack';
 // import 'es5-shim';
 // import 'es6-shim';
 // import 'es6-promise';
