@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
-import VoteControls from './vote-controls';
+import ThreadVoteControls from './thread-vote-controls';
 
 const ThreadCard = ({ subreddit, thread }) => {
   const commentsLink = `/r/${subreddit}/${thread.get('id')}/comments`;
   const title = thread.get('title');
   return (
-    <div className="flex px1 my1 bg-white border rounded items-center">
-      <VoteControls score={thread.get('score')} />
+    <div className="flex px1 my1 bg-darken-1 rounded items-center">
+      <ThreadVoteControls score={thread.get('score')} />
       <div className="px1 flex-auto">
         <div>
           <div className="h5 truncate">

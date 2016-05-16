@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 const noop = () => {};
 
-const VoteControls = ({ score, onUpvote = noop, onDownvote = noop }) => {
+const ThreadVoteControls = ({ score, onUpvote = noop, onDownvote = noop }) => {
   return (
     <div className="flex flex-column items-center" style={style.root}>
       <button className="btn btn-small" onClick={onUpvote} type="button">
@@ -16,7 +16,7 @@ const VoteControls = ({ score, onUpvote = noop, onDownvote = noop }) => {
   );
 };
 
-VoteControls.propTypes = {
+ThreadVoteControls.propTypes = {
   score: PropTypes.number.isRequired,
   onUpvote: PropTypes.func,
   onDownvote: PropTypes.func,
@@ -28,4 +28,4 @@ const style = {
   },
 };
 
-export default VoteControls;
+export default ThreadVoteControls;
