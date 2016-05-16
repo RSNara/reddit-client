@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {
-  getFieldsOfSubredditThreadComments,
+  getSubredditThreadComments,
   getFieldsOfSubredditThread,
 } from '../selectors/main';
 import { List, Map } from 'immutable';
+import ThreadComment from '../components/thread-comment';
 
 const SubredditThreadComments = ({ thread, threadComments }) => {
   const threadIsSelf = thread.get('is_self');
@@ -16,23 +17,20 @@ const SubredditThreadComments = ({ thread, threadComments }) => {
         <div className="flex justify-between">
           <div className="flex">
             <h2> [{ thread.get('score') }] &nbsp;&nbsp; </h2>
-            <h2> { threadIsSelf ? threadTitle : <a href={threadURL}>{ threadTitle }</a>} </h2>
+            <h2> { threadIsSelf ? threadTitle : <a href={threadURL} className="text-decoration-none">{ threadTitle }</a>} </h2>
           </div>
           <h2 className="blue"> &nbsp;&nbsp;{ thread.get('author') } </h2>
         </div>
         <p className="p2 bg-white border rounded"> { thread.get('selftext') } </p>
       </header>
-      <section className="py1 border rounded">
-        <ul>
-          {
-            threadComments.map((comment, i) => (
-              <li key={i}>
-                <h3>{ comment.get('author') } ({ comment.get('score') })</h3>
-                <p>{ comment.get('body') }</p>
-              </li>
-            ))
-          }
-        </ul>
+      <section className="py1">
+        {
+          threadComments.map((comment, i) => (
+            // <div key={i} className="mb2">
+              <ThreadComment comment={comment} key={i}/>
+            // </div>
+          ))
+        }
       </section>
     </section>
   );
@@ -46,6 +44,6 @@ SubredditThreadComments.propTypes = {
 export default connect(
   (state, { params: { subreddit, thread }}) => ({
     thread: getFieldsOfSubredditThread(state, subreddit, thread, ['title', 'author', 'selftext', 'url', 'score', 'is_self']),
-    threadComments: getFieldsOfSubredditThreadComments(state, subreddit, thread, ['author', 'id', 'body', 'score']),
+    threadComments: getSubredditThreadComments(state, subreddit, thread),
   })
 )(SubredditThreadComments);
