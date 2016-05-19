@@ -19,7 +19,11 @@ const ThreadCard = ({
     <div className="px1 my1 bg-darken-1 rounded">
       <div className="flex items-center">
         <ThreadVoteControls score={thread.get('score', 0)} />
-        <Thumbnail src={thread.get('thumbnail')} />
+        {
+          thread.get('is_self')
+            ? null
+            : <Thumbnail src={thread.get('thumbnail')} />
+        }
         <div className="px2 flex-auto">
           <div className="h5 truncate">
             {
