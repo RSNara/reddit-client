@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 import { handleActions } from 'redux-actions';
-import { SUBREDDITS } from '../constants';
+import { SUBREDDITS, CHILDREN_EXPANDED } from '../constants';
 
 const subreddits = handleActions({
 
@@ -21,6 +21,13 @@ const subreddits = handleActions({
   [SUBREDDITS.SAVE_THREAD_COMMENTS_TO_CACHE]: (state, { payload }) => {
     const { subreddit, thread, comments } = payload;
     return state.updateIn(['subredditCommentCache', subreddit, thread], indexedUpsert(comments));
+  },
+
+  [SUBREDDITS.TOGGLE_THREAD_COMMENT_EXPAND_CHILDREN]: (state, { payload }) => {
+    const { subreddit, thread, comment } = payload;
+    return state.updateIn(
+      ['expandChildren', subreddit, thread, comment], (x = CHILDREN_EXPANDED) => !x
+    );
   },
 
 }, Map());

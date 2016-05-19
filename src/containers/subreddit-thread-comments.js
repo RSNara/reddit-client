@@ -4,17 +4,23 @@ import {
   getSubredditThreadComments,
   getFieldsOfSubredditThread,
   getSubredditThreadCommentCache,
+  getSubredditThreadExpandedChildren,
 } from '../selectors/main';
 import { List, Map } from 'immutable';
 import ThreadComment from '../components/thread-comment';
 import ThreadCard from '../components/thread-card';
-import { fetchSubredditThreadMoreComments } from '../action-creators';
+import {
+  fetchSubredditThreadMoreComments,
+  toggleSubredditThreadCommentExpandChildren,
+} from '../action-creators';
+import { CHILDREN_EXPANDED } from '../constants';
 
 const SubredditThreadComments = ({
   thread,
   threadComments,
   params,
   subredditThreadCommentCache,
+  subredditThreadExpandedChildren,
   dispatch,
 }) => {
   const { subreddit } = params;
@@ -35,6 +41,14 @@ const SubredditThreadComments = ({
                 dispatch(fetchSubredditThreadMoreComments(
                   subreddit, thread.get('id'), linkId, children
                 ))
+              )}
+              shouldExpandChildren={(commentId) => (
+                subredditThreadExpandedChildren.get(commentId, CHILDREN_EXPANDED)
+              )}
+              toggleExpandChildren={(commentId) => (
+                dispatch(toggleSubredditThreadCommentExpandChildren(
+                  subreddit, thread.get('id'), commentId
+                ))
               )}/>
           ))
         }
@@ -50,6 +64,7 @@ SubredditThreadComments.propTypes = {
   thread: PropTypes.instanceOf(Map).isRequired,
   threadComments: PropTypes.instanceOf(List).isRequired,
   subredditThreadCommentCache: PropTypes.instanceOf(Map).isRequired,
+  subredditThreadExpandedChildren: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
@@ -58,5 +73,6 @@ export default connect(
     thread: getFieldsOfSubredditThread(state, subreddit, thread, ['id', 'title', 'author', 'selftext', 'url', 'score', 'is_self', 'num_comments']),
     threadComments: getSubredditThreadComments(state, subreddit, thread),
     subredditThreadCommentCache: getSubredditThreadCommentCache(state, subreddit, thread),
+    subredditThreadExpandedChildren: getSubredditThreadExpandedChildren(state, subreddit, thread),
   })
 )(SubredditThreadComments);

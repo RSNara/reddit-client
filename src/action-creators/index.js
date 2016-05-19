@@ -50,3 +50,14 @@ export function saveSubredditThreadCommentsToCache(subreddit, thread, comments) 
     },
   };
 }
+
+export function toggleSubredditThreadCommentExpandChildren(subreddit, thread, comment) {
+  return {
+    type: SUBREDDITS.TOGGLE_THREAD_COMMENT_EXPAND_CHILDREN,
+    payload: {
+      subreddit: subreddit,
+      thread: thread,
+      comment: comment,
+    },
+  };
+}

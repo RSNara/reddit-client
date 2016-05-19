@@ -36,3 +36,7 @@ export const getFieldsOfSubredditThreadComments = (state, subreddit, thread, fie
 export const getSubredditThreadCommentCache = (state, subreddit, thread) => (
   state.subreddits.getIn(['subredditCommentCache', subreddit, thread], Map())
 );
+
+export const getSubredditThreadExpandedChildren = (state, subreddit, thread) => (
+  state.subreddits.getIn(['expandChildren', subreddit, thread], Map())
+);
