@@ -25,11 +25,12 @@ const ThreadComment = ({
             onClick={() => toggleExpandChildren(commentId)}
             aria-hidden="true"
             className={cx(
-            'fa', 'cursor', {
+            'fa', {
               'fa-chevron-down': childrenExpanded,
               'fa-chevron-right': !childrenExpanded,
-            },
-          )}/>
+            })}
+            style={{cursor: 'pointer'}}
+          />
         </div>
         <div>
           <div className="h6 blue inline-block rounded">{data.get('author')}</div>
