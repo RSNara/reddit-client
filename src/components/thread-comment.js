@@ -44,7 +44,7 @@ const ThreadComment = ({
             </span>
             &nbsp;&nbsp;
             <span className="dark-gray">
-              {differenceInHours(Date.now() / 1000, data.get('created'))} hours ago
+              {differenceInHours(Date.now() / 1000, data.get('created_utc'))} hours ago
             </span>
           </div>
           <p className="mt0">{data.get('body')}</p>
