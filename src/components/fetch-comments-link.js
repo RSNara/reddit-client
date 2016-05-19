@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const FetchCommentsLink = ({ fetchComments, numberAvailable }) => {
+const FetchCommentsLink = ({ fetchComments, childCount }) => {
   return (
     <a
       className="h6 text-decoration-none black"
@@ -12,7 +12,7 @@ const FetchCommentsLink = ({ fetchComments, numberAvailable }) => {
       load more comments
       &nbsp;
       <span className="gray">
-        ({numberAvailable} replies)
+        ({childCount} replies)
       </span>
     </a>
   );
@@ -20,7 +20,7 @@ const FetchCommentsLink = ({ fetchComments, numberAvailable }) => {
 
 FetchCommentsLink.propTypes = {
   fetchComments: PropTypes.func.isRequired,
-  numberAvailable: PropTypes.number.isRequired,
+  childCount: PropTypes.number.isRequired,
 };
 
 export default FetchCommentsLink;

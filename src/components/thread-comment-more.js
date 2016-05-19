@@ -26,18 +26,17 @@ const ThreadCommentMore = ({
             comment={cache.get(id)}
             cache={cache}
             key={id} />
-        )).concat(
-          canDisplay.size < moreChildren.size
-            ? (
-                <FetchCommentsLink
-                  key={canDisplay.size}
-                  numberAvailable={childData.get('count', 0)}
-                  fetchComments={() => (
-                    fetchMoreComments(linkId, moreChildren.join(','))
-                  )} />
-              )
-            : [])
-        }
+        ))
+      }
+      {
+        canDisplay.size < moreChildren.size
+          ? <FetchCommentsLink
+              childCount={childData.get('count', 0)}
+              fetchComments={() => (
+                fetchMoreComments(linkId, moreChildren.join(','))
+              )} />
+          : null
+      }
     </div>
   );
 };

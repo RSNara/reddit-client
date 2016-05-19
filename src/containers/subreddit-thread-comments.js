@@ -69,7 +69,7 @@ const SubredditThreadComments = ({
         {
           moreComment
             ? <FetchCommentsLink
-                numberAvailable={moreComment.getIn(['data', 'count'], 0)}
+                childCount={moreComment.getIn(['data', 'count'], 0)}
                 fetchComments={() => (
                   dispatch(fetchSubredditThreadMoreRootComments(
                     subreddit,
