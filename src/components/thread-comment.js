@@ -34,7 +34,19 @@ const ThreadComment = ({
           />
         </div>
         <div>
-          <div className="h6 blue inline-block rounded">{data.get('author')}</div>
+          <div className="h6 inline-block rounded">
+            <span className="blue">
+              {data.get('author')}
+            </span>
+            &nbsp;&nbsp;
+            <span className="bold">
+              {data.get('score')} points
+            </span>
+            &nbsp;&nbsp;
+            <span className="dark-gray">
+              {differenceInHours(Date.now() / 1000, data.get('created'))} hours ago
+            </span>
+          </div>
           <p className="mt0">{data.get('body')}</p>
         </div>
       </div>
@@ -73,6 +85,11 @@ const ThreadComment = ({
     </section>
   );
 };
+
+function differenceInHours(now, then) {
+  const SECONDS_IN_HOUR = 60 * 60;
+  return Math.floor((now - then) / SECONDS_IN_HOUR);
+}
 
 ThreadComment.propTypes = {
   fetchMoreComments: PropTypes.func.isRequired,
