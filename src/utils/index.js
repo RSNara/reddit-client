@@ -25,13 +25,15 @@ export function createCommentTree(response) {
   const children = groupCommentsByParent(comments);
 
   for (const comment of comments) {
-    comment.data.replies = {
-      data: {
-        kind: 'Listing',
-        children: children[comment.data.name] || [],
-      },
-    };
-    delete children[comment.data.name];
+    if (children[comment.data.name]) {
+      comment.data.replies = {
+        data: {
+          kind: 'Listing',
+          children: children[comment.data.name],
+        },
+      };
+      delete children[comment.data.name];
+    }
   }
 
   /**
@@ -40,5 +42,5 @@ export function createCommentTree(response) {
    * Corresponds to the comment whose link_id was used to fetch more children.
    * console.log(Object.keys(children)) to investigate
    */
-  return head(values(children));
+  return head(values(children)) || [];
 }
