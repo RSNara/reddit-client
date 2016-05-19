@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 const FetchCommentsLink = ({ fetchComments }) => {
   return (
     <a
-      className="h5 text-decoration-none black bold"
+      className="h6 text-decoration-none black bold"
       href="#"
       onClick={(event) => {
         event.preventDefault();
