@@ -5,6 +5,7 @@ import {
   getFieldsOfSubredditThread,
   getSubredditThreadCommentCache,
   getSubredditThreadExpandedChildren,
+  getSubredditThreadCardExpandedThumbnails,
 } from '../selectors/main';
 import { List, Map } from 'immutable';
 import ThreadComment from '../components/thread-comment';
@@ -14,9 +15,10 @@ import {
   fetchSubredditThreadMoreComments,
   fetchSubredditThreadMoreRootComments,
   toggleSubredditThreadCommentExpandChildren,
+  toggleSubredditThreadCardExpandThumbnail,
   deleteSubredditThreadComment,
 } from '../action-creators';
-import { CHILDREN_EXPANDED } from '../constants';
+import { CHILDREN_EXPANDED, THUMBNAIL_EXPANDED } from '../constants';
 import { complement } from 'ramda';
 
 const SubredditThreadComments = ({
@@ -25,6 +27,7 @@ const SubredditThreadComments = ({
   params,
   subredditThreadCommentCache,
   subredditThreadExpandedChildren,
+  subredditThreadCardExpandedThumbnails,
   dispatch,
 }) => {
   const { subreddit } = params;
@@ -45,14 +48,33 @@ const SubredditThreadComments = ({
     ))
   );
 
+  const toggleExpandThumbnail = () => (
+    dispatch(toggleSubredditThreadCardExpandThumbnail(
+      subreddit, thread.get('id'),
+    ))
+  );
+
+  const shouldExpandThumbnail = () => (
+    subredditThreadCardExpandedThumbnails.get(thread.get('id'), THUMBNAIL_EXPANDED) &&
+    ! thread.get('is_self')
+  );
+
   const moreComment = threadComments.find(isMore);
   const normalComments = threadComments.filter(complement(isMore));
 
   return (
     <section>
       <header>
-        <ThreadCard thread={thread} subreddit={subreddit} />
-        <p className="p2 bg-white border rounded"> { thread.get('selftext') } </p>
+        <ThreadCard
+          shouldExpandThumbnail={shouldExpandThumbnail}
+          toggleExpandThumbnail={toggleExpandThumbnail}
+          thread={thread}
+          subreddit={subreddit} />
+        {
+          thread.get('is_self')
+            ? <p className="p2 bg-white border rounded"> { thread.get('selftext') } </p>
+            : null
+        }
       </header>
       <section className="py1 h5">
         {
@@ -98,14 +120,16 @@ SubredditThreadComments.propTypes = {
   threadComments: PropTypes.instanceOf(List).isRequired,
   subredditThreadCommentCache: PropTypes.instanceOf(Map).isRequired,
   subredditThreadExpandedChildren: PropTypes.instanceOf(Map).isRequired,
+  subredditThreadCardExpandedThumbnails: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(
-  (state, { params: { subreddit, thread }}) => ({
+  (state, { params: { subreddit, thread } }) => ({
     thread: getFieldsOfSubredditThread(state, subreddit, thread, ['id', 'title', 'author', 'name', 'selftext', 'url', 'score', 'is_self', 'num_comments', 'thumbnail']),
     threadComments: getSubredditThreadComments(state, subreddit, thread),
     subredditThreadCommentCache: getSubredditThreadCommentCache(state, subreddit, thread),
     subredditThreadExpandedChildren: getSubredditThreadExpandedChildren(state, subreddit, thread),
+    subredditThreadCardExpandedThumbnails: getSubredditThreadCardExpandedThumbnails(state, subreddit),
   })
 )(SubredditThreadComments);

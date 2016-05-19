@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 import { handleActions } from 'redux-actions';
-import { SUBREDDITS, CHILDREN_EXPANDED } from '../constants';
+import { SUBREDDITS, CHILDREN_EXPANDED, THUMBNAIL_EXPANDED } from '../constants';
 
 const subreddits = handleActions({
 
@@ -33,6 +33,13 @@ const subreddits = handleActions({
   [SUBREDDITS.DELETE_THREAD_COMMENT]: (state, { payload }) => {
     const { subreddit, thread, comment } = payload;
     return state.deleteIn(['comments', subreddit, thread, comment]);
+  },
+
+  [SUBREDDITS.TOGGLE_THREAD_CARD_EXPAND_THUMBNAIL]: (state, { payload }) => {
+    const { subreddit, thread } = payload;
+    return state.updateIn(
+      ['expandThumbnail', subreddit, thread], (x = THUMBNAIL_EXPANDED) => !x
+    );
   },
 
 }, Map());

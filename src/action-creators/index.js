@@ -62,6 +62,16 @@ export function toggleSubredditThreadCommentExpandChildren(subreddit, thread, co
   };
 }
 
+export function toggleSubredditThreadCardExpandThumbnail(subreddit, thread) {
+  return {
+    type: SUBREDDITS.TOGGLE_THREAD_CARD_EXPAND_THUMBNAIL,
+    payload: {
+      subreddit: subreddit,
+      thread: thread,
+    },
+  };
+}
+
 export function fetchSubredditThreadMoreRootComments(subreddit, thread, linkId, children) {
   return {
     type: SUBREDDITS.FETCH_THREAD_MORE_ROOT_COMMENTS,

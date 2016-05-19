@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { List, Map } from 'immutable';
+import { curry } from 'ramda';
 
 export const getDefaultSubreddits = (state) => state.subreddits.get('default', List());
 
@@ -40,3 +41,7 @@ export const getSubredditThreadCommentCache = (state, subreddit, thread) => (
 export const getSubredditThreadExpandedChildren = (state, subreddit, thread) => (
   state.subreddits.getIn(['expandChildren', subreddit, thread], Map())
 );
+
+export const getSubredditThreadCardExpandedThumbnails = curry((state, subreddit) => (
+  state.subreddits.getIn(['expandThumbnail', subreddit], Map())
+));

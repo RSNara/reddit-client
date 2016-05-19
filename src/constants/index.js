@@ -9,6 +9,7 @@ export const LOGOUT_USER = 'App/LOGOUT_USER';
 export const FORM_RESET = 'redux-form/RESET';
 
 export const CHILDREN_EXPANDED = true;
+export const THUMBNAIL_EXPANDED = false;
 
 export const SUBREDDITS = createActions('Subreddits', [
   'FETCH_DEFAULT',
@@ -23,6 +24,7 @@ export const SUBREDDITS = createActions('Subreddits', [
   'TOGGLE_THREAD_COMMENT_EXPAND_CHILDREN',
   'FETCH_THREAD_MORE_ROOT_COMMENTS',
   'DELETE_THREAD_COMMENT',
+  'TOGGLE_THREAD_CARD_EXPAND_THUMBNAIL',
 ]);
 
 function createActions(ns, actions) {
