@@ -44,3 +44,12 @@ export function createCommentTree(response) {
    */
   return head(values(children)) || [];
 }
+
+export function differenceInHours(now, then) {
+  const SECONDS_IN_HOUR = 60 * 60;
+  return Math.floor((now - then) / SECONDS_IN_HOUR);
+}
+
+export function differenceInHoursFromNow(then) {
+  return differenceInHours(Date.now() / 1000, then);
+}

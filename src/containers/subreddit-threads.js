@@ -55,7 +55,8 @@ SubredditThreads.propTypes = {
 export default connect(
   (state, { params: { subreddit } }) => ({
     threads: getFieldsOfSubredditThreads(state, subreddit, [
-      'title', 'id', 'score', 'author', 'thumbnail', 'selftext', 'url', 'is_self', 'num_comments',
+      'title', 'id', 'score', 'author', 'thumbnail', 'selftext', 'url',
+      'is_self', 'num_comments', 'created_utc',
     ]),
     subredditThreadCardExpandedThumbnails: getSubredditThreadCardExpandedThumbnails(state, subreddit),
   }),

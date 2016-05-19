@@ -2,15 +2,16 @@ import React, { PropTypes } from 'react';
 import { Set } from 'immutable';
 
 const Thumbnail = ({ src = '', style }) => {
+  const url = getURL(src);
   return (
     <img
-      src={getImageUrl(src)}
+      src={url}
       style={{...style, ...defaultStyles}} />
   );
 };
 
-function getImageUrl(url) {
-  return Set.of('default', 'self', 'nsfw').includes(url)
+function getURL(url) {
+  return Set.of('default', 'self', 'nsfw', '').includes(url)
     ? 'http://placehold.it/500x500'
     : url;
 }

@@ -4,6 +4,7 @@ import { Map } from 'immutable';
 import ThreadVoteControls from './thread-vote-controls';
 import Thumbnail from './thumbnail';
 import cx from 'classnames';
+import { differenceInHoursFromNow } from '../utils';
 
 const ThreadCard = ({
   subreddit,
@@ -19,7 +20,7 @@ const ThreadCard = ({
       <div className="flex items-center">
         <ThreadVoteControls score={thread.get('score', 0)} />
         <Thumbnail src={thread.get('thumbnail')} />
-        <div className="px1 flex-auto">
+        <div className="px2 flex-auto">
           <div className="h5 truncate">
             {
               thread.get('is_self')
@@ -31,7 +32,14 @@ const ThreadCard = ({
                   </a>
             }
 
-            <div className="h6">submitted by {thread.get('author')}</div>
+            <div className="h6">
+              submitted by&nbsp;
+              <span className="bold">{thread.get('author')}</span>,&nbsp;
+              <span className="gray">
+                {differenceInHoursFromNow(thread.get('created_utc'))}
+                &nbsp;hours ago
+              </span>
+            </div>
             <a
               className="h4 text-decoration-none"
               href="#"

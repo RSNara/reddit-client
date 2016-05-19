@@ -126,7 +126,7 @@ SubredditThreadComments.propTypes = {
 
 export default connect(
   (state, { params: { subreddit, thread } }) => ({
-    thread: getFieldsOfSubredditThread(state, subreddit, thread, ['id', 'title', 'author', 'name', 'selftext', 'url', 'score', 'is_self', 'num_comments', 'thumbnail']),
+    thread: getFieldsOfSubredditThread(state, subreddit, thread, ['id', 'title', 'author', 'name', 'selftext', 'url', 'score', 'is_self', 'num_comments', 'thumbnail', 'created_utc']),
     threadComments: getSubredditThreadComments(state, subreddit, thread),
     subredditThreadCommentCache: getSubredditThreadCommentCache(state, subreddit, thread),
     subredditThreadExpandedChildren: getSubredditThreadExpandedChildren(state, subreddit, thread),
