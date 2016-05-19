@@ -31,6 +31,7 @@ const ThreadCommentMore = ({
             ? (
                 <FetchCommentsLink
                   key={canDisplay.size}
+                  numberAvailable={childData.get('count', 0)}
                   fetchComments={() => (
                     fetchMoreComments(linkId, moreChildren.join(','))
                   )} />

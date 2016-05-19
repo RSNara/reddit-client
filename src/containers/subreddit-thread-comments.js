@@ -47,7 +47,7 @@ const SubredditThreadComments = ({
 
   const moreComment = threadComments.find(isMore);
   const normalComments = threadComments.filter(complement(isMore));
-  // debugger;
+
   return (
     <section>
       <header>
@@ -69,6 +69,7 @@ const SubredditThreadComments = ({
         {
           moreComment
             ? <FetchCommentsLink
+                numberAvailable={moreComment.getIn(['data', 'count'], 0)}
                 fetchComments={() => (
                   dispatch(fetchSubredditThreadMoreRootComments(
                     subreddit,
