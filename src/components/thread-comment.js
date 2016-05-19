@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Map, List } from 'immutable';
 import cx from 'classnames';
 import ThreadCommentMore from './thread-comment-more';
+import ThreadCommentBody from './thread-comment-body';
 
 const ThreadComment = ({
   comment,
@@ -47,7 +48,7 @@ const ThreadComment = ({
               {differenceInHours(Date.now() / 1000, data.get('created_utc'))} hours ago
             </span>
           </div>
-          <p className="mt0">{data.get('body')}</p>
+          <ThreadCommentBody string={data.get('body')} className="mt0" />
         </div>
       </div>
       <div>
