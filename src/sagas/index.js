@@ -17,6 +17,7 @@ export default function* root() {
     takeEvery(SUBREDDITS.FETCH_THREADS, fetchSubredditThreads),
     takeEvery(SUBREDDITS.FETCH_THREAD_COMMENTS, fetchSubredditThreadComments),
     takeEvery(SUBREDDITS.FETCH_THREAD_MORE_COMMENTS, fetchSubredditThreadMoreComments),
+    takeEvery(SUBREDDITS.FETCH_THREAD_MORE_ROOT_COMMENTS, fetchSubredditThreadMoreRootComments),
   ];
 }
 
@@ -40,14 +41,24 @@ function* fetchSubredditThreadComments({ payload: { subreddit, thread } }) {
   yield put(saveSubredditThreadComments(subreddit, thread, fromJS(comments[1].data.children)));
 }
 
-function* fetchSubredditThreadMoreComments({ payload: { linkId, children, subreddit, thread } }) {
+function fetchMoreComments(linkId, children) {
   const form = new FormData();
   form.append('link_id', linkId);
   form.append('children', children);
-  const response = yield fetch('/reddit/api/morechildren.json', {
+  return fetch('/reddit/api/morechildren.json', {
     method: 'POST',
     body: form,
-  });
-  const moreChildren = yield response.json();
+  }).then(
+    response => response.json()
+  );
+}
+
+function* fetchSubredditThreadMoreComments({ payload: { linkId, children, subreddit, thread } }) {
+  const moreChildren = yield fetchMoreComments(linkId, children);
   yield put(saveSubredditThreadCommentsToCache(subreddit, thread, fromJS(createCommentTree(moreChildren))));
+}
+
+function* fetchSubredditThreadMoreRootComments({ payload: { linkId, children, subreddit, thread } }) {
+  const moreChildren = yield fetchMoreComments(linkId, children);
+  yield put(saveSubredditThreadComments(subreddit, thread, fromJS(createCommentTree(moreChildren))));
 }

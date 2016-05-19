@@ -61,3 +61,26 @@ export function toggleSubredditThreadCommentExpandChildren(subreddit, thread, co
     },
   };
 }
+
+export function fetchSubredditThreadMoreRootComments(subreddit, thread, linkId, children) {
+  return {
+    type: SUBREDDITS.FETCH_THREAD_MORE_ROOT_COMMENTS,
+    payload: {
+      linkId: linkId,
+      children: children,
+      subreddit: subreddit,
+      thread: thread,
+    },
+  };
+}
+
+export function deleteSubredditThreadComment(subreddit, thread, comment) {
+  return {
+    type: SUBREDDITS.DELETE_THREAD_COMMENT,
+    payload: {
+      subreddit: subreddit,
+      thread: thread,
+      comment: comment,
+    },
+  };
+}

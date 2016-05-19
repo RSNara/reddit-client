@@ -30,6 +30,11 @@ const subreddits = handleActions({
     );
   },
 
+  [SUBREDDITS.DELETE_THREAD_COMMENT]: (state, { payload }) => {
+    const { subreddit, thread, comment } = payload;
+    return state.deleteIn(['comments', subreddit, thread, comment]);
+  },
+
 }, Map());
 
 function indexedUpsert(items) {

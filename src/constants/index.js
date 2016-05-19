@@ -21,6 +21,8 @@ export const SUBREDDITS = createActions('Subreddits', [
   'FETCH_THREAD_MORE_COMMENTS',
   'SAVE_THREAD_COMMENTS_TO_CACHE',
   'TOGGLE_THREAD_COMMENT_EXPAND_CHILDREN',
+  'FETCH_THREAD_MORE_ROOT_COMMENTS',
+  'DELETE_THREAD_COMMENT',
 ]);
 
 function createActions(ns, actions) {

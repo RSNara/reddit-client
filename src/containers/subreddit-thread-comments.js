@@ -8,10 +8,13 @@ import {
 } from '../selectors/main';
 import { List, Map } from 'immutable';
 import ThreadComment from '../components/thread-comment';
+import FetchCommentsLink from '../components/fetch-comments-link';
 import ThreadCard from '../components/thread-card';
 import {
   fetchSubredditThreadMoreComments,
+  fetchSubredditThreadMoreRootComments,
   toggleSubredditThreadCommentExpandChildren,
+  deleteSubredditThreadComment,
 } from '../action-creators';
 import { CHILDREN_EXPANDED } from '../constants';
 
@@ -49,15 +52,33 @@ const SubredditThreadComments = ({
       </header>
       <section className="py1">
         {
-          threadComments.map((comment, i) => (
-            <ThreadComment
-              comment={comment}
-              cache={subredditThreadCommentCache}
-              key={i}
-              fetchMoreComments={fetchMoreComments}
-              shouldExpandChildren={shouldExpandChildren}
-              toggleExpandChildren={toggleExpandChildren}/>
-          ))
+          threadComments.map((comment, i) => {
+            if (comment.get('kind') === 'more') {
+              const children = comment.getIn(['data', 'children'], List());
+              return (
+                <FetchCommentsLink
+                  key={i}
+                  fetchComments={() => (
+                    dispatch(fetchSubredditThreadMoreRootComments(
+                      subreddit, thread.get('id'), thread.get('name'), children.join(',')
+                    )),
+                    dispatch(deleteSubredditThreadComment(
+                      subreddit, thread.get('id'), comment.getIn(['data', 'id'])
+                    ))
+                  )} />
+              );
+            }
+
+            return (
+              <ThreadComment
+                comment={comment}
+                cache={subredditThreadCommentCache}
+                key={i}
+                fetchMoreComments={fetchMoreComments}
+                shouldExpandChildren={shouldExpandChildren}
+                toggleExpandChildren={toggleExpandChildren}/>
+            );
+          })
         }
       </section>
     </section>
@@ -77,7 +98,7 @@ SubredditThreadComments.propTypes = {
 
 export default connect(
   (state, { params: { subreddit, thread }}) => ({
-    thread: getFieldsOfSubredditThread(state, subreddit, thread, ['id', 'title', 'author', 'selftext', 'url', 'score', 'is_self', 'num_comments', 'thumbnail']),
+    thread: getFieldsOfSubredditThread(state, subreddit, thread, ['id', 'title', 'author', 'name', 'selftext', 'url', 'score', 'is_self', 'num_comments', 'thumbnail']),
     threadComments: getSubredditThreadComments(state, subreddit, thread),
     subredditThreadCommentCache: getSubredditThreadCommentCache(state, subreddit, thread),
     subredditThreadExpandedChildren: getSubredditThreadExpandedChildren(state, subreddit, thread),
