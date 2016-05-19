@@ -24,6 +24,23 @@ const SubredditThreadComments = ({
   dispatch,
 }) => {
   const { subreddit } = params;
+
+  const fetchMoreComments = (linkId, children) => (
+    dispatch(fetchSubredditThreadMoreComments(
+      subreddit, thread.get('id'), linkId, children
+    ))
+  );
+
+  const shouldExpandChildren = (commentId) => (
+    subredditThreadExpandedChildren.get(commentId, CHILDREN_EXPANDED)
+  );
+
+  const toggleExpandChildren = (commentId) => (
+    dispatch(toggleSubredditThreadCommentExpandChildren(
+      subreddit, thread.get('id'), commentId
+    ))
+  );
+
   return (
     <section>
       <header>
@@ -37,19 +54,9 @@ const SubredditThreadComments = ({
               comment={comment}
               cache={subredditThreadCommentCache}
               key={i}
-              fetchMoreComments={(linkId, children) => (
-                dispatch(fetchSubredditThreadMoreComments(
-                  subreddit, thread.get('id'), linkId, children
-                ))
-              )}
-              shouldExpandChildren={(commentId) => (
-                subredditThreadExpandedChildren.get(commentId, CHILDREN_EXPANDED)
-              )}
-              toggleExpandChildren={(commentId) => (
-                dispatch(toggleSubredditThreadCommentExpandChildren(
-                  subreddit, thread.get('id'), commentId
-                ))
-              )}/>
+              fetchMoreComments={fetchMoreComments}
+              shouldExpandChildren={shouldExpandChildren}
+              toggleExpandChildren={toggleExpandChildren}/>
           ))
         }
       </section>
