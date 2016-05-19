@@ -8,7 +8,7 @@ const ThreadCard = ({ subreddit, thread }) => {
   const title = thread.get('title');
   return (
     <div className="flex px1 my1 bg-darken-1 rounded items-center">
-      <ThreadVoteControls score={thread.get('score')} />
+      <ThreadVoteControls score={thread.get('score', 0)} />
       <div className="px1 flex-auto">
         <div>
           <div className="h5 truncate">

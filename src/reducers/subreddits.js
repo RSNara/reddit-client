@@ -18,6 +18,11 @@ const subreddits = handleActions({
     return state.updateIn(['comments', subreddit, thread], indexedUpsert(comments));
   },
 
+  [SUBREDDITS.SAVE_THREAD_COMMENTS_TO_CACHE]: (state, { payload }) => {
+    const { subreddit, thread, comments } = payload;
+    return state.updateIn(['subredditCommentCache', subreddit, thread], indexedUpsert(comments));
+  },
+
 }, Map());
 
 function indexedUpsert(items) {

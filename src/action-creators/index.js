@@ -27,3 +27,26 @@ export function saveSubredditThreadComments(subreddit, thread, comments) {
     },
   };
 }
+
+export function fetchSubredditThreadMoreComments(subreddit, thread, linkId, children) {
+  return {
+    type: SUBREDDITS.FETCH_THREAD_MORE_COMMENTS,
+    payload: {
+      linkId: linkId,
+      children: children,
+      subreddit: subreddit,
+      thread: thread,
+    },
+  };
+}
+
+export function saveSubredditThreadCommentsToCache(subreddit, thread, comments) {
+  return {
+    type: SUBREDDITS.SAVE_THREAD_COMMENTS_TO_CACHE,
+    payload: {
+      comments: comments,
+      subreddit: subreddit,
+      thread: thread,
+    },
+  };
+}

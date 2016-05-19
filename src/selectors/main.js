@@ -32,3 +32,7 @@ export const getSubredditThreadComments = (state, subreddit, thread) => (
 export const getFieldsOfSubredditThreadComments = (state, subreddit, thread, fields) => (
   getSubredditThreadComments(state, subreddit, thread).map(comment => getSubObject(comment.get('data'), fields))
 );
+
+export const getSubredditThreadCommentCache = (state, subreddit, thread) => (
+  state.subreddits.getIn(['subredditCommentCache', subreddit, thread], Map())
+);

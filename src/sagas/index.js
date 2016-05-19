@@ -7,13 +7,16 @@ import {
   saveDefaultSubreddits,
   saveSubredditThreads,
   saveSubredditThreadComments,
+  saveSubredditThreadCommentsToCache,
 } from '../action-creators';
+import { createCommentTree } from '../utils';
 
 export default function* root() {
   yield [
     takeEvery(SUBREDDITS.FETCH_DEFAULT, fetchDefaultSubreddits),
     takeEvery(SUBREDDITS.FETCH_THREADS, fetchSubredditThreads),
     takeEvery(SUBREDDITS.FETCH_THREAD_COMMENTS, fetchSubredditThreadComments),
+    takeEvery(SUBREDDITS.FETCH_THREAD_MORE_COMMENTS, fetchSubredditThreadMoreComments),
   ];
 }
 
@@ -35,4 +38,16 @@ function* fetchSubredditThreadComments({ payload: { subreddit, thread } }) {
   expect(comments).to.have.length(2); // first item is the thread
   yield put(saveSubredditThreads(subreddit, fromJS(comments[0].data.children)));
   yield put(saveSubredditThreadComments(subreddit, thread, fromJS(comments[1].data.children)));
+}
+
+function* fetchSubredditThreadMoreComments({ payload: { linkId, children, subreddit, thread } }) {
+  const form = new FormData();
+  form.append('link_id', linkId);
+  form.append('children', children);
+  const response = yield fetch('/reddit/api/morechildren.json', {
+    method: 'POST',
+    body: form,
+  });
+  const moreChildren = yield response.json();
+  yield put(saveSubredditThreadCommentsToCache(subreddit, thread, fromJS(createCommentTree(moreChildren))));
 }

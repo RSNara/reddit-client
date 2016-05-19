@@ -15,6 +15,9 @@ export const SUBREDDITS = createActions('Subreddits', [
   'SAVE_THREADS',
   'SAVE_THREAD_COMMENTS',
   'FETCH_THREAD_COMMENTS',
+  'SAVE_THREAD_COMMENT_TO_CACHE',
+  'FETCH_THREAD_MORE_COMMENTS',
+  'SAVE_THREAD_COMMENTS_TO_CACHE',
 ]);
 
 function createActions(ns, actions) {
