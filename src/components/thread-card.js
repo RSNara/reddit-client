@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
 import ThreadVoteControls from './thread-vote-controls';
+import Thumbnail from './thumbnail';
 
 const ThreadCard = ({ subreddit, thread }) => {
   const commentsLink = `/r/${subreddit}/${thread.get('id')}/comments`;
@@ -9,6 +10,7 @@ const ThreadCard = ({ subreddit, thread }) => {
   return (
     <div className="flex px1 my1 bg-darken-1 rounded items-center">
       <ThreadVoteControls score={thread.get('score', 0)} />
+      <Thumbnail src={thread.get('thumbnail')} />
       <div className="px1 flex-auto">
         <div>
           <div className="h5 truncate">
