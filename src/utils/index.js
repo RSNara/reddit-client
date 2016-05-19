@@ -25,7 +25,12 @@ export function createCommentTree(response) {
   const children = groupCommentsByParent(comments);
 
   for (const comment of comments) {
-    comment.data.replies = children[comment.data.name] || null;
+    comment.data.replies = {
+      data: {
+        kind: 'Listing',
+        children: children[comment.data.name] || [],
+      },
+    };
     delete children[comment.data.name];
   }
 
