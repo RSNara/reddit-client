@@ -17,6 +17,7 @@ import {
   deleteSubredditThreadComment,
 } from '../action-creators';
 import { CHILDREN_EXPANDED } from '../constants';
+import { complement } from 'ramda';
 
 const SubredditThreadComments = ({
   thread,
@@ -44,6 +45,9 @@ const SubredditThreadComments = ({
     ))
   );
 
+  const moreComment = threadComments.find(isMore);
+  const normalComments = threadComments.filter(complement(isMore));
+  // debugger;
   return (
     <section>
       <header>
@@ -52,38 +56,38 @@ const SubredditThreadComments = ({
       </header>
       <section className="py1 h5">
         {
-          threadComments.map((comment, i) => {
-            if (comment.get('kind') === 'more') {
-              const children = comment.getIn(['data', 'children'], List());
-              return (
-                <FetchCommentsLink
-                  key={i}
-                  fetchComments={() => (
-                    dispatch(fetchSubredditThreadMoreRootComments(
-                      subreddit, thread.get('id'), thread.get('name'), children.join(',')
-                    )),
-                    dispatch(deleteSubredditThreadComment(
-                      subreddit, thread.get('id'), comment.getIn(['data', 'id'])
-                    ))
-                  )} />
-              );
-            }
-
-            return (
-              <ThreadComment
-                comment={comment}
-                cache={subredditThreadCommentCache}
-                key={i}
-                fetchMoreComments={fetchMoreComments}
-                shouldExpandChildren={shouldExpandChildren}
-                toggleExpandChildren={toggleExpandChildren}/>
-            );
-          })
+          normalComments.map((comment, i) => (
+            <ThreadComment
+              comment={comment}
+              cache={subredditThreadCommentCache}
+              key={i}
+              fetchMoreComments={fetchMoreComments}
+              shouldExpandChildren={shouldExpandChildren}
+              toggleExpandChildren={toggleExpandChildren}/>
+          ))
+        }
+        {
+          moreComment
+            ? <FetchCommentsLink
+                fetchComments={() => (
+                  dispatch(fetchSubredditThreadMoreRootComments(
+                    subreddit,
+                    thread.get('id'),
+                    thread.get('name'),
+                    moreComment.getIn(['data', 'children'], List()).join(',')
+                  )),
+                  dispatch(deleteSubredditThreadComment(
+                    subreddit, thread.get('id'), moreComment.getIn(['data', 'id'])
+                  ))
+                )} />
+            : null
         }
       </section>
     </section>
   );
 };
+
+const isMore = (comment) => comment.get('kind') === 'more';
 
 SubredditThreadComments.propTypes = {
   params: PropTypes.shape({
