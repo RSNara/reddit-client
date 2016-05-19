@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Map, List } from 'immutable';
 import cx from 'classnames';
+import ThreadCommentMore from './thread-comment-more';
 
 const ThreadComment = ({
   comment,
@@ -42,35 +43,17 @@ const ThreadComment = ({
           childrenExpanded
             ? children.map((child, i) => {
               const childKind = child.get('kind');
-              const childData = child.get('data');
 
               if (childKind === 'more') {
-                const moreChildren = childData.get('children', List());
-                const canDisplay = moreChildren.filter((id) => cache.has(id));
-
-                return canDisplay.map((id) => (
-                  <ThreadComment
+                return (
+                  <ThreadCommentMore
+                    linkId={linkId}
                     toggleExpandChildren={toggleExpandChildren}
                     shouldExpandChildren={shouldExpandChildren}
                     fetchMoreComments={fetchMoreComments}
-                    comment={cache.get(id)}
+                    comment={child}
                     cache={cache}
-                    key={id} />
-                )).concat(
-                  canDisplay.size === 0
-                    ? (
-                        <a
-                          className="h5 text-decoration-none black bold"
-                          href="#"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            fetchMoreComments(linkId, moreChildren.join(','));
-                          }}
-                          key={i}>
-                          Request more comments!
-                        </a>
-                      )
-                    : []
+                    key={i} />
                 );
               }
 

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Set } from 'immutable';
 
-const Thumbnail = ({ src, style }) => {
+const Thumbnail = ({ src = '', style }) => {
   return (
     <img
       src={getImageUrl(src)}
@@ -16,7 +16,7 @@ function getImageUrl(url) {
 }
 
 Thumbnail.propTypes = {
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
   style: PropTypes.object,
 };
 
