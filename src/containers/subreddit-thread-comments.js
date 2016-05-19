@@ -50,7 +50,7 @@ const SubredditThreadComments = ({
         <ThreadCard thread={thread} subreddit={subreddit} />
         <p className="p2 bg-white border rounded"> { thread.get('selftext') } </p>
       </header>
-      <section className="py1">
+      <section className="py1 h5">
         {
           threadComments.map((comment, i) => {
             if (comment.get('kind') === 'more') {
