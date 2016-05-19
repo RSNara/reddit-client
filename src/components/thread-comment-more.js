@@ -14,6 +14,7 @@ const ThreadCommentMore = ({
   const childData = comment.get('data');
   const moreChildren = childData.get('children', List());
   const canDisplay = moreChildren.filter((id) => cache.has(id));
+  const cantDisplay = moreChildren.filter((id) => !cache.has(id));
 
   return (
     <div>
@@ -29,11 +30,11 @@ const ThreadCommentMore = ({
         ))
       }
       {
-        canDisplay.size < moreChildren.size
+        cantDisplay.size > 0
           ? <FetchCommentsLink
-              childCount={childData.get('count', 0)}
+              childCount={cantDisplay.size}
               fetchComments={() => (
-                fetchMoreComments(linkId, moreChildren.join(','))
+                fetchMoreComments(linkId, cantDisplay.join(','))
               )} />
           : null
       }
