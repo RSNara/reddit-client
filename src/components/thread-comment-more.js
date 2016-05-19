@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import ThreadComment from './thread-comment';
 import { Map, List } from 'immutable';
+import FetchCommentsLink from './fetch-comments-link';
 
 const ThreadCommentMore = ({
   comment,
@@ -28,16 +29,11 @@ const ThreadCommentMore = ({
         )).concat(
           canDisplay.size < moreChildren.size
             ? (
-                <a
-                  className="h5 text-decoration-none black bold"
-                  href="#"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    fetchMoreComments(linkId, moreChildren.join(','));
-                  }}
-                  key={canDisplay.size}>
-                  Request more comments!
-                </a>
+                <FetchCommentsLink
+                  key={canDisplay.size}
+                  fetchComments={() => (
+                    fetchMoreComments(linkId, moreChildren.join(','))
+                  )} />
               )
             : [])
         }
