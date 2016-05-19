@@ -59,9 +59,16 @@ const ThreadComment = ({
                 )).concat(
                   canDisplay.size === 0
                     ? (
-                        <button type="button" className="btn btn-small h6" onClick={() => fetchMoreComments(linkId, moreChildren.join(','))} key={i}>
+                        <a
+                          className="h5 text-decoration-none black bold"
+                          href="#"
+                          onClick={(event) => {
+                            event.preventDefault();
+                            fetchMoreComments(linkId, moreChildren.join(','));
+                          }}
+                          key={i}>
                           Request more comments!
-                        </button>
+                        </a>
                       )
                     : []
                 );
