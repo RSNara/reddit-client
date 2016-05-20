@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router';
-import Main from '../containers/Main';
+import Main from '../containers/main';
 import SubredditThreads from '../containers/subreddit-threads';
 import SubredditThreadComments from '../containers/subreddit-thread-comments';
 import { SUBREDDITS } from '../constants';
