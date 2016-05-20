@@ -46,7 +46,7 @@ const SubredditThreads = ({
       }
       <button
         type="button"
-        className="btn btn-primary"
+        className="btn btn-primary btn-small"
         onClick={() => dispatch(
           fetchSubredditThreads(
             subreddit, 25, (sortedThreads.last() || Map()).get('name')
