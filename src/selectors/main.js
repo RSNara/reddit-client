@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { List, Map } from 'immutable';
-import { curry } from 'ramda';
+import { curry, complement, comparator, concat } from 'ramda';
 
 export const getDefaultSubreddits = (state) => state.subreddits.get('default', List());
 
@@ -11,6 +11,31 @@ export const getDefaultSubredditTitles = createSelector(
 
 export const getSubredditThread = (state, subreddit, id) => state.subreddits.getIn(['threads', subreddit, id]);
 export const getSubredditThreads = (state, subreddit) => (state.subreddits || Map()).getIn(['threads', subreddit], Map()).toList();
+
+export const threadHasGreaterScore = comparator(
+  (a, b) => a.getIn(['data', 'score']) > b.getIn(['data', 'score'])
+);
+
+export const threadIsStickied = (thread) => (
+  thread.getIn(['data', 'stickied'], false)
+);
+
+export const getSortedSubredditThreads = createSelector(
+  getSubredditThreads, (threads) => threads.sort(threadHasGreaterScore)
+);
+
+export const getStickiedSubredditThreads = createSelector(
+  getSortedSubredditThreads, (threads) => threads.filter(threadIsStickied)
+);
+
+export const getNonStickiedSubredditThreads = createSelector(
+  getSortedSubredditThreads, (threads) => threads.filter(complement(threadIsStickied))
+);
+
+export const getOrderedSubredditThreads = createSelector(
+  getStickiedSubredditThreads, getNonStickiedSubredditThreads, concat
+);
+
 export const doesStateHaveSubredditThreads = (state, subreddit) => state.subreddits.hasIn(['threads', subreddit]);
 
 export const getSubObject = (map, fields) => map.reduce((table, value, key) => (

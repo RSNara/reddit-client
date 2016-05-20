@@ -12,42 +12,43 @@ const ThreadCard = ({
   shouldExpandThumbnail,
   toggleExpandThumbnail,
 }) => {
-  const commentsLink = `/r/${subreddit}/${thread.get('id')}/comments`;
-  const title = thread.get('title');
+  const data = thread.get('data', Map());
+  const commentsLink = `/r/${subreddit}/${data.get('id')}/comments`;
+  const title = data.get('title');
   const isThumbnailExpanded = shouldExpandThumbnail();
   return (
     <div className="px1 my1 bg-darken-1 rounded">
       <div className="flex items-center">
-        <ThreadVoteControls score={thread.get('score', 0)} />
+        <ThreadVoteControls score={data.get('score', 0)} />
         {
-          thread.get('is_self')
+          data.get('is_self')
             ? null
             : <div className="px1 flex items-center justify-center">
-                <Thumbnail src={thread.get('thumbnail')} />
+                <Thumbnail src={data.get('thumbnail')} />
               </div>
         }
         <div className="flex-auto px1">
           <div className="h5 truncate">
             {
-              thread.get('is_self')
+              data.get('is_self')
                 ? <Link to={commentsLink} className="text-decoration-none">
                     {title}
                   </Link>
-                : <a href={thread.get('url')} className="text-decoration-none">
+                : <a href={data.get('url')} className="text-decoration-none">
                     {title}
                   </a>
             }
 
             <div className="h6">
               submitted by&nbsp;
-              <span className="bold">{thread.get('author')}</span>,&nbsp;
+              <span className="bold">{data.get('author')}</span>,&nbsp;
               <span className="gray">
-                {differenceInHoursFromNow(thread.get('created_utc'))}
+                {differenceInHoursFromNow(data.get('created_utc'))}
                 &nbsp;hours ago
               </span>
             </div>
             {
-              thread.get('is_self')
+              data.get('is_self')
                 ? null
                 : <span>
                     <a
@@ -63,7 +64,7 @@ const ThreadCard = ({
                   </span>
             }
             <Link to={commentsLink} className="h6 text-decoration-none navy">
-              {thread.get('num_comments')} comments
+              {data.get('num_comments')} comments
             </Link>
           </div>
         </div>
@@ -73,7 +74,7 @@ const ThreadCard = ({
       })}>
         {
           isThumbnailExpanded
-            ? <img src={thread.get('thumbnail')} />
+            ? <img src={data.get('thumbnail')} />
             : null
         }
       </div>
