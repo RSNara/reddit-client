@@ -10,7 +10,7 @@ export const getDefaultSubredditTitles = createSelector(
 );
 
 export const getSubredditThread = (state, subreddit, id) => state.subreddits.getIn(['threads', subreddit, id]);
-export const getSubredditThreads = (state, subreddit) => state.subreddits.getIn(['threads', subreddit], Map()).toList();
+export const getSubredditThreads = (state, subreddit) => (state.subreddits || Map()).getIn(['threads', subreddit], Map()).toList();
 export const doesStateHaveSubredditThreads = (state, subreddit) => state.subreddits.hasIn(['threads', subreddit]);
 
 export const getSubObject = (map, fields) => map.reduce((table, value, key) => (

@@ -6,6 +6,7 @@ import SubredditThreadComments from '../containers/subreddit-thread-comments';
 import { SUBREDDITS } from '../constants';
 import {
   doesStateHaveSubredditThreadComments,
+  getSubredditThreads,
 } from '../selectors/main';
 
 export default (store) => (
@@ -26,6 +27,7 @@ function fetchSubredditThreads(store) {
       type: SUBREDDITS.FETCH_THREADS,
       payload: {
         subreddit: subreddit,
+        count: getSubredditThreads(store, subreddit).size || 25,
       },
     });
   };
