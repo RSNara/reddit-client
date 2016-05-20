@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import marked from 'marked';
 import cx from 'classnames';
 
-marked.setOptions({
-  breaks: true,
-  pedantic: true,
-  smartypants: true,
-});
+// marked.setOptions({
+//   breaks: true,
+//   pedantic: true,
+//   smartypants: true,
+// });
 
-const ThreadCommentBody = ({ string, className = '' }) => {
+const MarkdownBody = ({ string, className = '' }) => {
   return (
     <p
       className={cx(className, 'md-comment')}
@@ -16,9 +16,9 @@ const ThreadCommentBody = ({ string, className = '' }) => {
   );
 };
 
-ThreadCommentBody.propTypes = {
+MarkdownBody.propTypes = {
   string: PropTypes.string.isRequired,
   className: PropTypes.string,
 };
 
-export default ThreadCommentBody;
+export default MarkdownBody;

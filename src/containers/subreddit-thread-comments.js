@@ -11,6 +11,7 @@ import { List, Map } from 'immutable';
 import ThreadComment from '../components/thread-comment';
 import FetchCommentsLink from '../components/fetch-comments-link';
 import ThreadCard from '../components/thread-card';
+import MarkdownBody from '../components/markdown-body';
 import {
   fetchSubredditThreadMoreComments,
   fetchSubredditThreadMoreRootComments,
@@ -75,7 +76,9 @@ const SubredditThreadComments = ({
           subreddit={subreddit} />
         {
           data.get('is_self') && data.get('selftext')
-            ? <p className="p2 bg-white border rounded"> { data.get('selftext') } </p>
+            ? <MarkdownBody
+                string={data.get('selftext')}
+                className="px3 py1 h5 bg-silver shadow rounded" />
             : null
         }
       </header>
