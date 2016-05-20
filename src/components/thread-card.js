@@ -22,9 +22,11 @@ const ThreadCard = ({
         {
           thread.get('is_self')
             ? null
-            : <Thumbnail src={thread.get('thumbnail')} />
+            : <div className="px1 flex items-center justify-center">
+                <Thumbnail src={thread.get('thumbnail')} />
+              </div>
         }
-        <div className="px2 flex-auto">
+        <div className="flex-auto px1">
           <div className="h5 truncate">
             {
               thread.get('is_self')
@@ -44,16 +46,22 @@ const ThreadCard = ({
                 &nbsp;hours ago
               </span>
             </div>
-            <a
-              className="h4 text-decoration-none"
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                toggleExpandThumbnail();
-              }}>
-              [{ isThumbnailExpanded ? '-' : '+' }]
-            </a>
-            &nbsp;
+            {
+              thread.get('is_self')
+                ? null
+                : <span>
+                    <a
+                      className="h4 text-decoration-none"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toggleExpandThumbnail();
+                      }}>
+                      [{ isThumbnailExpanded ? '-' : '+' }]
+                    </a>
+                    &nbsp;
+                  </span>
+            }
             <Link to={commentsLink} className="h6 text-decoration-none navy">
               {thread.get('num_comments')} comments
             </Link>
