@@ -17,7 +17,9 @@ const ThreadCard = ({
   const title = data.get('title');
   const isThumbnailExpanded = shouldExpandThumbnail();
   return (
-    <div className="px1 my1 bg-darken-1 rounded">
+    <div
+      className="px1 my1 bg-darken-1 rounded border-green"
+      style={style.stickied[data.get('stickied')]}>
       <div className="flex items-center">
         <ThreadVoteControls score={data.get('score', 0)} />
         {
@@ -80,6 +82,17 @@ const ThreadCard = ({
       </div>
     </div>
   );
+};
+
+const style = {
+  stickied: {
+    true: {
+      borderLeft: '0.5rem solid green',
+    },
+    false: {
+      border: 'none',
+    },
+  },
 };
 
 ThreadCard.propTypes = {
