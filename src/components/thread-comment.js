@@ -20,7 +20,8 @@ const ThreadComment = ({
   const children = data.getIn(['replies', 'data', 'children'], List());
 
   return (
-    <section className="pl2 p1 bg-white border rounded mb1">
+    <section className="pl2 p1 bg-white rounded mb1"
+      style={style.root}>
       <div className="flex">
         <div className="pr1">
           <i
@@ -91,6 +92,13 @@ function differenceInHours(now, then) {
   const SECONDS_IN_HOUR = 60 * 60;
   return Math.floor((now - then) / SECONDS_IN_HOUR);
 }
+
+const style = {
+  root: {
+    // border: '0.05rem solid silver',
+    boxShadow: '-0.05rem 0.05rem 0.25rem gray',
+  },
+};
 
 ThreadComment.propTypes = {
   fetchMoreComments: PropTypes.func.isRequired,
