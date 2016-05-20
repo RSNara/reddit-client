@@ -71,7 +71,7 @@ const SubredditThreadComments = ({
           thread={thread}
           subreddit={subreddit} />
         {
-          thread.get('is_self')
+          thread.get('is_self') && thread.get('selftext')
             ? <p className="p2 bg-white border rounded"> { thread.get('selftext') } </p>
             : null
         }
@@ -126,7 +126,10 @@ SubredditThreadComments.propTypes = {
 
 export default connect(
   (state, { params: { subreddit, thread } }) => ({
-    thread: getFieldsOfSubredditThread(state, subreddit, thread, ['id', 'title', 'author', 'name', 'selftext', 'url', 'score', 'is_self', 'num_comments', 'thumbnail', 'created_utc']),
+    thread: getFieldsOfSubredditThread(state, subreddit, thread, [
+      'id', 'title', 'author', 'name', 'selftext', 'url', 'score', 'is_self',
+      'num_comments', 'thumbnail', 'created_utc',
+    ]),
     threadComments: getSubredditThreadComments(state, subreddit, thread),
     subredditThreadCommentCache: getSubredditThreadCommentCache(state, subreddit, thread),
     subredditThreadExpandedChildren: getSubredditThreadExpandedChildren(state, subreddit, thread),
