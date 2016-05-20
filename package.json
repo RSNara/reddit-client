@@ -31,7 +31,12 @@
     "branches": 80,
     "functions": 80
   },
-  "devDependencies": {
+  "dependencies": {
+    "express": "^4.13.3",
+    "helmet": "^2.0.0",
+    "http-proxy": "^1.12.1",
+    "marked": "^0.3.5",
+    "winston": "^2.1.1",
     "autoprefixer": "^6.3.3",
     "autoprefixer-core": "^6.0.1",
     "babel": "^6.5.2",
@@ -110,13 +115,6 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.6.4",
     "webpack-split-by-path": "0.0.8"
-  },
-  "dependencies": {
-    "express": "^4.13.3",
-    "helmet": "^2.0.0",
-    "http-proxy": "^1.12.1",
-    "marked": "^0.3.5",
-    "winston": "^2.1.1"
   },
   "keywords": [
     "react",
