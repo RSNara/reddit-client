@@ -20,6 +20,7 @@ import {
 } from '../action-creators';
 import { CHILDREN_EXPANDED, THUMBNAIL_EXPANDED } from '../constants';
 import { complement } from 'ramda';
+import SubredditHeader from '../components/subreddit-header';
 
 const SubredditThreadComments = ({
   thread,
@@ -65,6 +66,7 @@ const SubredditThreadComments = ({
   return (
     <section>
       <header>
+        <SubredditHeader title={subreddit} />
         <ThreadCard
           shouldExpandThumbnail={shouldExpandThumbnail}
           toggleExpandThumbnail={toggleExpandThumbnail}
