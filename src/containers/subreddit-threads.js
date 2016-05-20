@@ -9,6 +9,7 @@ import ThreadCard from '../components/thread-card';
 import { comparator } from 'ramda';
 import { toggleSubredditThreadCardExpandThumbnail } from '../action-creators';
 import { THUMBNAIL_EXPANDED } from 'constants';
+import SubredditHeader from '../components/subreddit-header';
 
 const SubredditThreads = ({
   params: { subreddit },
@@ -17,7 +18,10 @@ const SubredditThreads = ({
   dispatch,
 }) => {
   return (
-    <div>
+    <section>
+      <header>
+        <SubredditHeader title={subreddit} />
+      </header>
       {
         threads
           .sort(compare)
@@ -37,7 +41,7 @@ const SubredditThreads = ({
               subreddit={subreddit} />
           ))
       }
-    </div>
+    </section>
   );
 };
 
