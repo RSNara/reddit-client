@@ -7,7 +7,10 @@ import {
 } from '../selectors/main';
 import ThreadCard from '../components/thread-card';
 import { comparator } from 'ramda';
-import { toggleSubredditThreadCardExpandThumbnail } from '../action-creators';
+import {
+  toggleSubredditThreadCardExpandThumbnail,
+  fetchSubredditThreads,
+} from '../action-creators';
 import { THUMBNAIL_EXPANDED } from 'constants';
 import SubredditHeader from '../components/subreddit-header';
 
@@ -17,14 +20,14 @@ const SubredditThreads = ({
   subredditThreadCardExpandedThumbnails,
   dispatch,
 }) => {
+  const sortedThreads = threads.sort(compare);
   return (
     <section>
       <header>
         <SubredditHeader title={subreddit} />
       </header>
       {
-        threads
-          .sort(compare)
+        sortedThreads
           .map((thread, i) => (
             <ThreadCard
               shouldExpandThumbnail={() => (
@@ -41,6 +44,16 @@ const SubredditThreads = ({
               subreddit={subreddit} />
           ))
       }
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={() => dispatch(
+          fetchSubredditThreads(
+            subreddit, 25, (sortedThreads.last() || Map()).get('name')
+          )
+        )}>
+          Load More
+      </button>
     </section>
   );
 };
@@ -60,7 +73,7 @@ export default connect(
   (state, { params: { subreddit } }) => ({
     threads: getFieldsOfSubredditThreads(state, subreddit, [
       'title', 'id', 'score', 'author', 'thumbnail', 'selftext', 'url',
-      'is_self', 'num_comments', 'created_utc',
+      'is_self', 'num_comments', 'created_utc', 'name',
     ]),
     subredditThreadCardExpandedThumbnails: getSubredditThreadCardExpandedThumbnails(state, subreddit),
   }),

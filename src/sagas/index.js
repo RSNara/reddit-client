@@ -27,8 +27,8 @@ function* fetchDefaultSubreddits() {
   yield put(saveDefaultSubreddits(fromJS(subreddits.data.children)));
 }
 
-function* fetchSubredditThreads({ payload: { subreddit } }) {
-  const response = yield fetch(`/reddit/r/${subreddit}`);
+function* fetchSubredditThreads({ payload: { subreddit, count, after } }) {
+  const response = yield fetch(`/reddit/r/${subreddit}?count=${count}&after=${after}`);
   const threads = yield response.json();
   yield put(saveSubredditThreads(subreddit, fromJS(threads.data.children)));
 }

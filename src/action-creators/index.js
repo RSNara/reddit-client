@@ -94,3 +94,14 @@ export function deleteSubredditThreadComment(subreddit, thread, comment) {
     },
   };
 }
+
+export function fetchSubredditThreads(subreddit, count = 25, after = '') {
+  return {
+    type: SUBREDDITS.FETCH_THREADS,
+    payload: {
+      subreddit: subreddit,
+      count: count,
+      after: after,
+    },
+  };
+}
