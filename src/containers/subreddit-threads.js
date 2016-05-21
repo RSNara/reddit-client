@@ -31,7 +31,7 @@ const SubredditThreads = ({
             return (
               <ThreadCard
                 shouldExpandThumbnail={() => (
-                  subredditThreadCardExpandedThumbnails.get(data.get('id'), THUMBNAIL_EXPANDED) &&
+                  !! subredditThreadCardExpandedThumbnails.get(data.get('id'), THUMBNAIL_EXPANDED) &&
                   ! data.get('is_self')
                 )}
                 toggleExpandThumbnail={() => (
