@@ -143,6 +143,7 @@
   "devDependencies": {
     "ava": "^0.14.0",
     "concurrently": "^2.1.0",
+    "coveralls": "^2.11.9",
     "cz-conventional-changelog": "^1.1.6",
     "eslint-plugin-ava": "^2.3.1"
   },
