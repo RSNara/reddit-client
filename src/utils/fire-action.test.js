@@ -1,7 +1,7 @@
 import fireAction from './fire-action';
-import assert from 'assert';
+import test from 'ava';
 
-describe('fireAction', () => {
+test('should fire the provided action against the provided reducer', t => {
   const INITIAL_STATE = {
     test: false,
   };
@@ -17,8 +17,6 @@ describe('fireAction', () => {
     }
   };
 
-  it('it should fire the provided action against the provided reducer', () => {
-    const state = fireAction(mockReducer, INITIAL_STATE, 'test');
-    assert(state.test);
-  });
+  const state = fireAction(mockReducer, INITIAL_STATE, 'test');
+  t.true(state.test, 'failed to set state correctly');
 });
