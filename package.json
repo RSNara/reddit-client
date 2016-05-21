@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-starter",
-  "version": "0.1.0",
-  "description": "A boiler-plate setup for React/Redux applications",
+  "name": "reddit-clone",
+  "version": "0.0.1",
+  "description": "Shameless reddit clone using react + redux + official reddit API",
   "license": "MIT",
   "engines": {
     "node": "4.x"
@@ -128,5 +128,13 @@
   },
   "bugs": {
     "url": "https://github.com/rangle/rangle-starter/issues"
+  },
+  "devDependencies": {
+    "cz-conventional-changelog": "^1.1.6"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
