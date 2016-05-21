@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Map } from 'immutable';
 import { getThumbnailURLFromThread } from '../../utils';
 
-const ThreadThumbnail = ({ hide = false, thread }) => {
+const CardThumbnail = ({ hide = false, thread }) => {
   if (hide) {
     return (
       <div />
@@ -16,7 +16,7 @@ const ThreadThumbnail = ({ hide = false, thread }) => {
   );
 };
 
-ThreadThumbnail.propTypes = {
+CardThumbnail.propTypes = {
   hide: PropTypes.bool,
   thread: PropTypes.instanceOf(Map).isRequired,
 };
@@ -30,4 +30,4 @@ const style = {
   },
 };
 
-export default ThreadThumbnail;
+export default CardThumbnail;
