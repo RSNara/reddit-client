@@ -2,9 +2,12 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
 import ThreadVoteControls from './thread-vote-controls';
-import Thumbnail from './thumbnail';
+import ThreadThumbnail from './thread-thumbnail';
 import cx from 'classnames';
-import { differenceInHoursFromNow } from '../utils';
+import {
+  differenceInHoursFromNow,
+  getImageURLFromThread,
+} from '../utils';
 
 const ThreadCard = ({
   subreddit,
@@ -22,13 +25,7 @@ const ThreadCard = ({
       style={style.stickied[data.get('stickied')]}>
       <div className="flex items-center">
         <ThreadVoteControls score={data.get('score', 0)} />
-        {
-          data.get('is_self')
-            ? null
-            : <div className="px1 flex items-center justify-center">
-                <Thumbnail src={data.get('thumbnail')} />
-              </div>
-        }
+        <ThreadThumbnail thread={thread} />
         <div className="flex-auto px1">
           <div className="h5 truncate">
             {
@@ -76,7 +73,7 @@ const ThreadCard = ({
       })}>
         {
           isThumbnailExpanded
-            ? <img src={data.get('thumbnail')} />
+            ? <img src={getImageURLFromThread(thread)} />
             : null
         }
       </div>

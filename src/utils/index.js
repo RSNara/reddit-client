@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { Map, Set } from 'immutable';
 import { last, head, compose, prop, values, clone} from 'ramda';
 
 export function indexById(list) {
@@ -52,4 +52,29 @@ export function differenceInHours(now, then) {
 
 export function differenceInHoursFromNow(then) {
   return differenceInHours(Date.now() / 1000, then);
+}
+
+export function getThumbnailURLFromThread(thread) {
+  const data = thread.get('data', Map());
+  const thumbnail = data.get('thumbnail');
+  return Set.of('default', 'self', 'nsfw', '').includes(thumbnail)
+    ? 'http://placehold.it/500x500'
+    : thumbnail;
+}
+
+export function getImageURLFromThread(thread) {
+  const data = thread.get('data', Map());
+  const domain = data.get('domain');
+  const url = data.get('url');
+  const isURLValidWRT = regex => regex.test(url);
+
+  if (! /imgur/.test(domain) || [/\/gallery\//, /\/a\//].some(isURLValidWRT)) {
+    return getThumbnailURLFromThread(thread);
+  }
+
+  if (! /(gifv|gif|png|jpg)/.test(url)) {
+    return `${url}.jpg`;
+  }
+
+  return url;
 }
