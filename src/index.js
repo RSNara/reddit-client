@@ -1,9 +1,5 @@
 import 'babel-polyfill';
 import 'font-awesome-webpack';
-// import 'es5-shim';
-// import 'es6-shim';
-// import 'es6-promise';
-
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
