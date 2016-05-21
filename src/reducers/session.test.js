@@ -1,6 +1,6 @@
-import assert from 'assert';
 import fireAction from '../utils/fire-action';
 import sessionReducer from '../reducers/session';
+import test from 'ava';
 
 import {
   LOGIN_USER_PENDING,
@@ -11,50 +11,38 @@ import {
 
 import { Map } from 'immutable';
 
-let state = sessionReducer(undefined, {});
+test.beforeEach(t => {
+  t.context.state = sessionReducer(undefined, {});
+});
 
-describe('Session Reducer', () => {
-  describe('inital state', () => {
-    it('should be a Map', () => {
-      assert.strictEqual(Map.isMap(state), true);
-    });
-  });
+test('initial state should be a Map', t => {
+  t.true(Map.isMap(t.context.state));
+});
 
-  describe('on LOGIN_USER_PENDING', () => {
-    it('should set loading to true', () => {
-      state = fireAction(sessionReducer, state, LOGIN_USER_PENDING);
-      assert(state.get('isLoading'));
-      assert(state.get('token') === null);
-    });
-  });
+test('LOGIN_USER_PENDING should set loading to true', t => {
+  t.context.state = fireAction(sessionReducer, t.context.state, LOGIN_USER_PENDING);
+  t.true(t.context.state.get('isLoading'), 'isLoading should be true');
+  t.falsy(t.context.state.get('token'), 'token should be falsy');
+});
 
-  describe('on LOGIN_USER_SUCCESS', () => {
-    it('should save the username', () => {
-      state = fireAction(sessionReducer, state, LOGIN_USER_SUCCESS, { token: 1234 });
+test('LOGIN_USER_SUCCESS should set the token', t => {
+  t.context.state = fireAction(sessionReducer, t.context.state, LOGIN_USER_SUCCESS, { token: 1234 });
+  t.false(t.context.state.get('isLoading'), 'isLoading should be false');
+  t.false(t.context.state.get('hasError'), 'there should be no error');
+  t.is(t.context.state.get('token'), 1234, 'token should be set correctly');
+});
 
-      assert(!state.get('isLoading'));
-      assert(!state.get('hasError'));
-      assert(state.get('token') === 1234);
-    });
-  });
+test('LOGIN_USER_ERROR should show an error', t => {
+  t.context.state = fireAction(sessionReducer, t.context.state, LOGIN_USER_ERROR);
+  t.false(t.context.state.get('isLoading'), 'isLoading should be false');
+  t.true(t.context.state.get('hasError'), '`hasError` should be true when there is an error');
+});
 
-  describe('on LOGIN_USER_ERROR', () => {
-    it('should save the username', () => {
-      state = fireAction(sessionReducer, state, LOGIN_USER_ERROR);
-
-      assert(!state.get('isLoading'));
-      assert(state.get('hasError'));
-    });
-  });
-
-
-  describe('on LOGOUT_USER', () => {
-    it('should save the username', () => {
-      state = fireAction(sessionReducer, state, LOGOUT_USER);
-
-      assert(!state.get('isLoading'));
-      assert(!state.get('hasError'));
-      assert(state.get('token') === null);
-    });
-  });
+test('LOGOUT_USER should clear the token', t => {
+  t.context.state = fireAction(sessionReducer, t.context.state, LOGIN_USER_SUCCESS, { token: 1234 });
+  t.is(t.context.state.get('token'), 1234, 'token should be set correctly');
+  t.context.state = fireAction(sessionReducer, t.context.state, LOGOUT_USER);
+  t.false(t.context.state.get('isLoading'), 'isLoading should be false');
+  t.false(t.context.state.get('hasError'), 'there should be no error');
+  t.falsy(t.context.state.get('token'), 'token should be cleared');
 });
