@@ -66,15 +66,20 @@ export function getImageURLFromThread(thread) {
   const data = thread.get('data', Map());
   const domain = data.get('domain');
   const url = data.get('url');
+  const preview = data.getIn(['preview', 'images', 0, 'source', 'url'], false);
   const isURLValidWRT = regex => regex.test(url);
 
-  if (! /imgur/.test(domain) || [/\/gallery\//, /\/a\//].some(isURLValidWRT)) {
-    return getThumbnailURLFromThread(thread);
+  if (preview) {
+    return preview;
   }
 
-  if (! /(gifv|gif|png|jpg)/.test(url)) {
+  if (/(gifv|gif|png|jpg)$/.test(url)) {
+    return url;
+  }
+
+  if (/imgur/.test(domain) && ![/\/gallery\//, /\/a\//].some(isURLValidWRT)) {
     return `${url}.jpg`;
   }
 
-  return url;
+  return getThumbnailURLFromThread(thread);
 }
