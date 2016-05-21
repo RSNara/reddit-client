@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { Map } from 'immutable';
 import { getThumbnailURLFromThread } from '../../utils';
 
-const CardThumbnail = ({ hide = false, thread }) => {
-  if (hide) {
+const CardThumbnail = ({ visible = true, thread }) => {
+  if (! visible) {
     return (
       <div />
     );
@@ -17,7 +17,7 @@ const CardThumbnail = ({ hide = false, thread }) => {
 };
 
 CardThumbnail.propTypes = {
-  hide: PropTypes.bool,
+  visible: PropTypes.bool,
   thread: PropTypes.instanceOf(Map).isRequired,
 };
 

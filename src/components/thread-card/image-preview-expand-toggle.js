@@ -1,11 +1,8 @@
 import React, { PropTypes } from 'react';
 import ToggleButton from './toggle-button';
-import { Map } from 'immutable';
 
-const ImagePreviewToggleButton = ({ thread, onToggle, isExpanded }) => {
-  const data = thread.get('data', Map());
-
-  if (data.get('is_self') || ! data.get('thumbnail')) {
+const ImagePreviewToggleButton = ({ visible, onToggle, isExpanded }) => {
+  if (! visible) {
     return <span />;
   }
 
@@ -15,7 +12,7 @@ const ImagePreviewToggleButton = ({ thread, onToggle, isExpanded }) => {
 };
 
 ImagePreviewToggleButton.propTypes = {
-  thread: PropTypes.instanceOf(Map).isRequired,
+  visible: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
   isExpanded: PropTypes.bool.isRequired,
 };
