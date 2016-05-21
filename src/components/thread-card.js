@@ -47,7 +47,7 @@ const ThreadCard = ({
               </span>
             </div>
             {
-              data.get('is_self')
+              data.get('is_self') || ! data.get('thumbnail')
                 ? null
                 : <span>
                     <a
