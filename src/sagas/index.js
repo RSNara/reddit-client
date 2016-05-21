@@ -27,10 +27,10 @@ function* fetchDefaultSubreddits() {
   yield put(saveDefaultSubreddits(fromJS(subreddits.data.children)));
 }
 
-function* fetchSubredditThreads({ payload: { subreddit, count, after } }) {
-  const response = yield fetch(`/reddit/r/${subreddit}?count=${count}&after=${after}`);
+function* fetchSubredditThreads({ payload: { subreddit, count, after, filter } }) {
+  const response = yield fetch(`/reddit/r/${subreddit}/${filter}?count=${count}&after=${after}`);
   const threads = yield response.json();
-  yield put(saveSubredditThreads(subreddit, fromJS(threads.data.children)));
+  yield put(saveSubredditThreads(subreddit, filter, fromJS(threads.data.children)));
 }
 
 function* fetchSubredditThreadComments({ payload: { subreddit, thread } }) {

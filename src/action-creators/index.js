@@ -7,10 +7,11 @@ export function saveDefaultSubreddits(subreddits) {
   };
 }
 
-export function saveSubredditThreads(subreddit, threads) {
+export function saveSubredditThreads(subreddit, filter, threads) {
   return {
     type: SUBREDDITS.SAVE_THREADS,
     payload: {
+      filter: filter,
       subreddit: subreddit,
       threads: threads,
     },
@@ -95,10 +96,11 @@ export function deleteSubredditThreadComment(subreddit, thread, comment) {
   };
 }
 
-export function fetchSubredditThreads(subreddit, count = 25, after = '') {
+export function fetchSubredditThreads(subreddit, count = 25, after = '', filter) {
   return {
     type: SUBREDDITS.FETCH_THREADS,
     payload: {
+      filter: filter,
       subreddit: subreddit,
       count: count,
       after: after,

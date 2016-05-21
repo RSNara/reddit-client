@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { Map, Set } from 'immutable';
 import { handleActions } from 'redux-actions';
 import { SUBREDDITS, CHILDREN_EXPANDED, THUMBNAIL_EXPANDED } from '../constants';
 
@@ -9,8 +9,10 @@ const subreddits = handleActions({
   ),
 
   [SUBREDDITS.SAVE_THREADS]: (state, { payload }) => {
-    const { subreddit, threads } = payload;
-    return state.updateIn(['threads', subreddit], indexedUpsert(threads));
+    const { subreddit, threads, filter } = payload;
+    return state.updateIn(['threads', subreddit], indexedUpsert(threads.map(
+      (thread) => thread.set('filters', Set.of(filter))
+    )));
   },
 
   [SUBREDDITS.SAVE_THREAD_COMMENTS]: (state, { payload }) => {
@@ -47,7 +49,9 @@ const subreddits = handleActions({
 function indexedUpsert(items) {
   return (old = Map()) => (
     items.reduce((table, item) => (
-      table.set(item.getIn(['data', 'id']), item)
+      table.update(item.getIn(['data', 'id']), (oldItem) => (
+        oldItem ? oldItem.mergeDeep(item) : item
+      ))
     ), old)
   );
 }
