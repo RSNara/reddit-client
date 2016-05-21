@@ -9,6 +9,52 @@ import {
   getImageURLFromThread,
 } from '../utils';
 
+const getLinkToComments = (subreddit, thread) => (
+  `/r/${subreddit}/${thread.getIn(['data', 'id'])}/comments`
+);
+
+const CommentsLink = ({ subreddit, thread }) => {
+  const data = thread.get('data', Map());
+  const title = thread.get('title', '');
+  const commentsLink = getLinkToComments(subreddit, thread);
+  if (data.get('is_self')) {
+    return (
+      <Link to={commentsLink} className="text-decoration-none">
+        {title}
+      </Link>
+    );
+  }
+
+  return (
+    <a href={data.get('url')} className="text-decoration-none">
+      {title}
+    </a>
+  );
+};
+
+CommentsLink.propTypes = {
+  subreddit: PropTypes.string.isRequired,
+  thread: PropTypes.instanceOf(Map).isRequired,
+};
+
+const ThreadOriginInfo = ({ thread }) => {
+  const data = thread.get('data', Map());
+  return (
+    <div className="h6">
+      submitted by&nbsp;
+      <span className="bold">{data.get('author')}</span>,&nbsp;
+      <span className="gray">
+        {differenceInHoursFromNow(data.get('created_utc'))}
+        &nbsp;hours ago
+      </span>
+    </div>
+  );
+};
+
+ThreadOriginInfo.propTypes = {
+  thread: PropTypes.instanceOf(Map).isRequired,
+};
+
 const ThreadCard = ({
   subreddit,
   thread,
@@ -16,9 +62,8 @@ const ThreadCard = ({
   toggleExpandThumbnail,
 }) => {
   const data = thread.get('data', Map());
-  const commentsLink = `/r/${subreddit}/${data.get('id')}/comments`;
-  const title = data.get('title');
   const isThumbnailExpanded = shouldExpandThumbnail();
+  const commentsLink = getLinkToComments(subreddit, thread);
   return (
     <div
       className="px1 my1 bg-darken-1 rounded border-green"
@@ -31,24 +76,8 @@ const ThreadCard = ({
         <ThreadThumbnail thread={thread} />
         <div className="flex-auto px1">
           <div className="h5 truncate">
-            {
-              data.get('is_self')
-                ? <Link to={commentsLink} className="text-decoration-none">
-                    {title}
-                  </Link>
-                : <a href={data.get('url')} className="text-decoration-none">
-                    {title}
-                  </a>
-            }
-
-            <div className="h6">
-              submitted by&nbsp;
-              <span className="bold">{data.get('author')}</span>,&nbsp;
-              <span className="gray">
-                {differenceInHoursFromNow(data.get('created_utc'))}
-                &nbsp;hours ago
-              </span>
-            </div>
+            <CommentsLink subreddit={subreddit} thread={thread} />
+            <ThreadOriginInfo thread={thread} />
             {
               data.get('is_self') || ! data.get('thumbnail')
                 ? null
