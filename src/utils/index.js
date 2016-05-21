@@ -57,7 +57,7 @@ export function differenceInHoursFromNow(then) {
 export function getThumbnailURLFromThread(thread) {
   const data = thread.get('data', Map());
   const thumbnail = data.get('thumbnail');
-  return Set.of('default', 'self', 'nsfw', '').includes(thumbnail)
+  return Set.of('default', 'self', 'nsfw').includes(thumbnail)
     ? 'http://placehold.it/500x500'
     : thumbnail;
 }

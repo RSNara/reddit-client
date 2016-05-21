@@ -6,7 +6,7 @@ import { getThumbnailURLFromThread } from '../utils';
 const ThreadThumbnail = ({ thread }) => {
   const data = thread.get('data', Map());
 
-  if (data.get('is_self')) {
+  if (data.get('is_self') || ! data.get('thumbnail')) {
     return (
       <div />
     );
