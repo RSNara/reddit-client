@@ -6,11 +6,11 @@ const MarkdownBody = ({ string, className = '' }) => {
   return (
     <p
       className={cx(className, 'md-comment')}
-      dangerouslySetInnerHTML={createMarkup()} />
+      dangerouslySetInnerHTML={createMarkup(string)} />
   );
 };
 
-function createMarkup (string) {
+function createMarkup(string) {
   return {__html: marked(string)};
 }
 
