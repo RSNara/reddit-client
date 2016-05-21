@@ -22,7 +22,10 @@ const ThreadCard = ({
   return (
     <div
       className="px1 my1 bg-darken-1 rounded border-green"
-      style={style.stickied[data.get('stickied')]}>
+      style={{
+        ...style.stickied[data.get('stickied')],
+        ...style.shadow,
+      }}>
       <div className="flex items-center">
         <ThreadVoteControls score={data.get('score', 0)} />
         <ThreadThumbnail thread={thread} />
@@ -87,8 +90,11 @@ const style = {
       borderLeft: '0.5rem solid green',
     },
     false: {
-      border: 'none',
+      borderLeft: '0.5rem solid silver',
     },
+  },
+  shadow: {
+    boxShadow: '0.1rem 0.05rem 0.1rem gray',
   },
 };
 
