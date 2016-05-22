@@ -12,6 +12,7 @@ import {
 } from '../action-creators';
 import { THUMBNAIL_EXPANDED } from 'constants';
 import SubredditHeader from '../components/subreddit-header';
+import SubredditFilterLink from '../components/subreddit-filter-link';
 
 const SubredditThreads = ({
   params: { subreddit, filter },
@@ -23,6 +24,12 @@ const SubredditThreads = ({
     <section>
       <header>
         <SubredditHeader title={subreddit} />
+        <div className="flex">
+          <SubredditFilterLink subreddit={subreddit} filter={'hot'} active={filter === 'hot'}/>
+          <SubredditFilterLink subreddit={subreddit} filter={'top'} active={filter === 'top'}/>
+          <SubredditFilterLink subreddit={subreddit} filter={'controversial'} active={filter === 'controversial'}/>
+          <SubredditFilterLink subreddit={subreddit} filter={'new'} active={filter === 'new'}/>
+        </div>
       </header>
       {
         orderedThreads
