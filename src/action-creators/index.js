@@ -107,3 +107,14 @@ export function fetchSubredditThreads(subreddit, count = 25, after = '', filter)
     },
   };
 }
+
+export function saveSubredditLastFetchedThreadName(subreddit, threadName, filter) {
+  return {
+    type: SUBREDDITS.LAST_FETCHED_THREAD_NAME,
+    payload: {
+      filter: filter,
+      subreddit: subreddit,
+      threadName: threadName,
+    },
+  };
+}
