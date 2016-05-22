@@ -12,12 +12,12 @@ import CardContainer from './card-container';
 import { getLinkToComments } from './utils';
 
 const ThreadCard = ({
-  subreddit,
   thread,
   shouldExpandThumbnail,
   toggleExpandThumbnail,
 }) => {
   const data = thread.get('data', Map());
+  const subreddit = data.get('subreddit', '');
   const commentsLink = getLinkToComments(subreddit, thread);
   const expandPreview = shouldExpandThumbnail();
   const author = data.get('author', '');
@@ -47,7 +47,6 @@ const ThreadCard = ({
 
 
 ThreadCard.propTypes = {
-  subreddit: PropTypes.string.isRequired,
   thread: PropTypes.instanceOf(Map).isRequired,
   shouldExpandThumbnail: PropTypes.func.isRequired,
   toggleExpandThumbnail: PropTypes.func.isRequired,

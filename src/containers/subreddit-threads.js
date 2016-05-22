@@ -14,6 +14,7 @@ import {
 import { THUMBNAIL_EXPANDED } from 'constants';
 import SubredditHeader from '../components/subreddit-header';
 import SubredditFilterLink from '../components/subreddit-filter-link';
+import ThreadCardList from '../components/thread-card-list';
 
 const SubredditThreads = ({
   params: { subreddit, filter },
@@ -22,6 +23,17 @@ const SubredditThreads = ({
   dispatch,
   nameOfLastThreadFetched,
 }) => {
+  const shouldShowImagePreview = (id) => () => (
+    !! subredditThreadCardExpandedThumbnails.get(id, THUMBNAIL_EXPANDED) &&
+    ! data.get('is_self')
+  );
+
+  const toggleImagePreview = (id) => () => (
+    dispatch(toggleSubredditThreadCardExpandThumbnail(
+      subreddit, id
+    ))
+  );
+
   return (
     <section>
       <header>
@@ -33,27 +45,10 @@ const SubredditThreads = ({
           <SubredditFilterLink subreddit={subreddit} filter={'new'} active={filter === 'new'}/>
         </div>
       </header>
-      {
-        orderedThreads
-          .map((thread, i) => {
-            const data = thread.get('data', Map());
-            return (
-              <ThreadCard
-                shouldExpandThumbnail={() => (
-                  !! subredditThreadCardExpandedThumbnails.get(data.get('id'), THUMBNAIL_EXPANDED) &&
-                  ! data.get('is_self')
-                )}
-                toggleExpandThumbnail={() => (
-                  dispatch(toggleSubredditThreadCardExpandThumbnail(
-                    subreddit, data.get('id')
-                  ))
-                )}
-                thread={thread}
-                key={i}
-                subreddit={subreddit} />
-            );
-          })
-      }
+      <ThreadCardList
+        thread={orderedThreads}
+        shouldShowImagePreview={shouldShowImagePreview}
+        toggleImagePreview={toggleImagePreview} />
       <button
         type="button"
         className="btn btn-primary btn-small"
