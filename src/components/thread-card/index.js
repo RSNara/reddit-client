@@ -20,16 +20,19 @@ const ThreadCard = ({
   const data = thread.get('data', Map());
   const commentsLink = getLinkToComments(subreddit, thread);
   const expandPreview = shouldExpandThumbnail();
+  const author = data.get('author', '');
+  const createdAt = data.get('created_utc', Date.now());
+  const isStickied = data.get('stickied', false);
   const showThumbnail = !(data.get('is_self') && ! data.get('thumbnail'));
   return (
-    <CardContainer stickied={data.get('stickied')}>
+    <CardContainer stickied={isStickied}>
       <div className="flex items-center">
         <KarmaControls score={data.get('score', 0)} />
         <CardThumbnail visible={showThumbnail} thread={thread} />
         <div className="flex-auto px1">
           <div className="h5 truncate">
             <ThreadLink subreddit={subreddit} thread={thread} />
-            <ThreadOrigin createdAt={data.get('created_utc')} author={data.get('author')} />
+            <ThreadOrigin createdAt={createdAt} author={author} />
             <ImagePreviewExpandToggle visible={showThumbnail} onToggle={toggleExpandThumbnail} isExpanded={expandPreview} />
             <Link to={commentsLink} className="h6 text-decoration-none navy">
               {data.get('num_comments')} comments

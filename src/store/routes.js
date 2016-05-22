@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRedirect } from 'react-router';
+import { Route, IndexRedirect, Redirect } from 'react-router';
 import Main from '../containers/main';
 import SubredditThreads from '../containers/subreddit-threads';
 import SubredditThreadComments from '../containers/subreddit-thread-comments';
@@ -8,11 +8,13 @@ import {
   doesStateHaveSubredditThreadComments,
   getSubredditThreads,
 } from '../selectors/main';
+import * as AC from '../action-creators';
 
 export default (store) => (
   <Route path="/" component={ Main } onEnter={fetchDefaultSubreddits(store)}>
     <IndexRedirect to="r/AskReddit" />
-    <Route path="r/:subreddit" component={SubredditThreads} onEnter={fetchSubredditThreads(store)} />
+    <Redirect from="r/:subreddit" to="r/:subreddit/hot" />
+    <Route path="r/:subreddit/:filter" component={SubredditThreads} onEnter={fetchSubredditThreads(store)} />
     <Route path="r/:subreddit/:thread/comments" component={SubredditThreadComments} onEnter={fetchSubredditThreadComments(store)} />
   </Route>
 );
@@ -22,15 +24,10 @@ function fetchDefaultSubreddits(store) {
 }
 
 function fetchSubredditThreads(store) {
-  return ({ params: { subreddit } = {} }) => {
+  return ({ params: { subreddit, filter } = {} }) => {
     // Always re-fetch subreddit threads when you visit route
-    store.dispatch({
-      type: SUBREDDITS.FETCH_THREADS,
-      payload: {
-        subreddit: subreddit,
-        count: getSubredditThreads(store, subreddit).size || 25,
-      },
-    });
+    const count = getSubredditThreads(store, subreddit).size || 25;
+    store.dispatch(AC.fetchSubredditThreads(subreddit, count, undefined, filter));
   };
 }
 
