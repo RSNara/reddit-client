@@ -10,8 +10,9 @@ const subreddits = handleActions({
 
   [SUBREDDITS.SAVE_THREADS]: (state, { payload }) => {
     const { subreddit, threads, filter } = payload;
+    const filterSet = filter ? Set.of(filter) : Set();
     return state.updateIn(['threads', subreddit], indexedUpsert(threads.map(
-      (thread) => thread.set('filters', Set.of(filter))
+      (thread) => thread.set('filters', filterSet)
     )));
   },
 
