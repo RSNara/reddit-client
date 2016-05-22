@@ -15,6 +15,7 @@ export const SUBREDDITS = createActions('Subreddits', [
   'FETCH_THREAD_MORE_ROOT_COMMENTS',
   'DELETE_THREAD_COMMENT',
   'TOGGLE_THREAD_CARD_EXPAND_THUMBNAIL',
+  'LAST_FETCHED_THREAD_NAME',
 ]);
 
 function createActions(ns, actions) {

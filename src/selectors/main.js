@@ -43,6 +43,10 @@ export const getOrderedSubredditThreads = createSelector(
   getStickiedSubredditThreads, getNonStickiedSubredditThreads, concat
 );
 
+export const getNameOfLastFetchedSubredditThreadWithFilter = (state, subreddit, filter) => (
+  (state.subreddits || Map()).getIn(['lastFetchedThreadName', subreddit, filter])
+);
+
 export const getFilteredOrderedSubredditThreads = (subreddit, thread, filter) => (
   filterSubredditThreads(getOrderedSubredditThreads(subreddit, thread), filter)
 );

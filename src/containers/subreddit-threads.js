@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   getFilteredOrderedSubredditThreads,
   getSubredditThreadCardExpandedThumbnails,
+  getNameOfLastFetchedSubredditThreadWithFilter,
 } from '../selectors/main';
 import ThreadCard from '../components/thread-card';
 import {
@@ -19,6 +20,7 @@ const SubredditThreads = ({
   orderedThreads,
   subredditThreadCardExpandedThumbnails,
   dispatch,
+  nameOfLastThreadFetched,
 }) => {
   return (
     <section>
@@ -57,7 +59,7 @@ const SubredditThreads = ({
         className="btn btn-primary btn-small"
         onClick={() => dispatch(
           fetchSubredditThreads(
-            subreddit, 25, (orderedThreads.last() || Map()).getIn(['data', 'name']), filter
+            subreddit, 25, nameOfLastThreadFetched, filter
           )
         )}>
           Load More
@@ -74,11 +76,13 @@ SubredditThreads.propTypes = {
   }).isRequired,
   subredditThreadCardExpandedThumbnails: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
+  nameOfLastThreadFetched: PropTypes.string,
 };
 
 export default connect(
   (state, { params: { subreddit, filter } }) => ({
     orderedThreads: getFilteredOrderedSubredditThreads(state, subreddit, filter),
     subredditThreadCardExpandedThumbnails: getSubredditThreadCardExpandedThumbnails(state, subreddit),
+    nameOfLastThreadFetched: getNameOfLastFetchedSubredditThreadWithFilter(state, subreddit, filter),
   }),
 )(SubredditThreads);

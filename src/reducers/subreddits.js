@@ -45,6 +45,11 @@ const subreddits = handleActions({
     );
   },
 
+  [SUBREDDITS.LAST_FETCHED_THREAD_NAME]: (state, { payload }) => {
+    const { subreddit, threadName, filter } = payload;
+    return state.setIn(['lastFetchedThreadName', subreddit, filter], threadName);
+  },
+
 }, Map());
 
 function indexedUpsert(items) {

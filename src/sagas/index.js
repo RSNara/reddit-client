@@ -8,8 +8,10 @@ import {
   saveSubredditThreads,
   saveSubredditThreadComments,
   saveSubredditThreadCommentsToCache,
+  saveSubredditLastFetchedThreadName,
 } from '../action-creators';
 import { createCommentTree } from '../utils';
+import { last } from 'ramda';
 
 export default function* root() {
   yield [
@@ -31,6 +33,7 @@ function* fetchSubredditThreads({ payload: { subreddit, count, after, filter } }
   const response = yield fetch(`/reddit/r/${subreddit}/${filter}?count=${count}&after=${after}`);
   const threads = yield response.json();
   yield put(saveSubredditThreads(subreddit, fromJS(threads.data.children), filter));
+  yield put(saveSubredditLastFetchedThreadName(subreddit, last(threads.data.children).data.name, filter));
 }
 
 function* fetchSubredditThreadComments({ payload: { subreddit, thread } }) {
