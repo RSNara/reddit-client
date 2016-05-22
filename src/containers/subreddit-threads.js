@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { List, Map } from 'immutable';
 import { connect } from 'react-redux';
 import {
-  getOrderedSubredditThreads,
+  getFilteredOrderedSubredditThreads,
   getSubredditThreadCardExpandedThumbnails,
 } from '../selectors/main';
 import ThreadCard from '../components/thread-card';
@@ -14,7 +14,7 @@ import { THUMBNAIL_EXPANDED } from 'constants';
 import SubredditHeader from '../components/subreddit-header';
 
 const SubredditThreads = ({
-  params: { subreddit },
+  params: { subreddit, filter },
   orderedThreads,
   subredditThreadCardExpandedThumbnails,
   dispatch,
@@ -50,7 +50,7 @@ const SubredditThreads = ({
         className="btn btn-primary btn-small"
         onClick={() => dispatch(
           fetchSubredditThreads(
-            subreddit, 25, (orderedThreads.last() || Map()).getIn(['data', 'name'])
+            subreddit, 25, (orderedThreads.last() || Map()).getIn(['data', 'name']), filter
           )
         )}>
           Load More
@@ -63,14 +63,15 @@ SubredditThreads.propTypes = {
   orderedThreads: PropTypes.instanceOf(List).isRequired,
   params: PropTypes.shape({
     subreddit: PropTypes.string.isRequired,
+    filter: PropTypes.string.isRequired,
   }).isRequired,
   subredditThreadCardExpandedThumbnails: PropTypes.instanceOf(Map).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(
-  (state, { params: { subreddit } }) => ({
-    orderedThreads: getOrderedSubredditThreads(state, subreddit),
+  (state, { params: { subreddit, filter } }) => ({
+    orderedThreads: getFilteredOrderedSubredditThreads(state, subreddit, filter),
     subredditThreadCardExpandedThumbnails: getSubredditThreadCardExpandedThumbnails(state, subreddit),
   }),
 )(SubredditThreads);
