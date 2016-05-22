@@ -7,7 +7,7 @@ export function saveDefaultSubreddits(subreddits) {
   };
 }
 
-export function saveSubredditThreads(subreddit, filter, threads) {
+export function saveSubredditThreads(subreddit, threads, filter) {
   return {
     type: SUBREDDITS.SAVE_THREADS,
     payload: {
