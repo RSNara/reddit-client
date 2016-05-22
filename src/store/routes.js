@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRedirect, Redirect } from 'react-router';
 import Main from '../containers/main';
-import SubredditThreads from '../containers/subreddit-threads';
+import SubredditPage from '../containers/subreddit-page';
 import SubredditThreadComments from '../containers/subreddit-thread-comments';
 import { SUBREDDITS } from '../constants';
 import {
@@ -14,7 +14,7 @@ export default (store) => (
   <Route path="/" component={ Main } onEnter={fetchDefaultSubreddits(store)}>
     <IndexRedirect to="r/AskReddit" />
     <Redirect from="r/:subreddit" to="r/:subreddit/hot" />
-    <Route path="r/:subreddit/:filter" component={SubredditThreads} onEnter={fetchSubredditThreads(store)} />
+    <Route path="r/:subreddit/:filter" component={SubredditPage} onEnter={fetchSubredditThreads(store)} />
     <Route path="r/:subreddit/:thread/comments" component={SubredditThreadComments} onEnter={fetchSubredditThreadComments(store)} />
   </Route>
 );

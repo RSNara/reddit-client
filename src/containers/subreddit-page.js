@@ -6,7 +6,6 @@ import {
   getSubredditThreadCardExpandedThumbnails,
   getNameOfLastFetchedSubredditThreadWithFilter,
 } from '../selectors/main';
-import ThreadCard from '../components/thread-card';
 import {
   toggleSubredditThreadCardExpandThumbnail,
   fetchSubredditThreads,
@@ -46,7 +45,7 @@ const SubredditThreads = ({
         </div>
       </header>
       <ThreadCardList
-        thread={orderedThreads}
+        threads={orderedThreads}
         shouldShowImagePreview={shouldShowImagePreview}
         toggleImagePreview={toggleImagePreview} />
       <button
