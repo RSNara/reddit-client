@@ -1,5 +1,13 @@
 export const CHILDREN_EXPANDED = true;
 export const THUMBNAIL_EXPANDED = false;
+export const FRONT_PAGE_NAME = '@front-page';
+
+export const VALID_FILTERS = [
+  'hot',
+  'controversial',
+  'new',
+  'top',
+];
 
 export const SUBREDDITS = createActions('Subreddits', [
   'FETCH_DEFAULT',
