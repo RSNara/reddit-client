@@ -6,7 +6,6 @@ import {
   getSubredditThreadCardExpandedThumbnails,
   getNameOfLastFetchedSubredditThreadWithFilter,
 } from '../selectors/main';
-import ThreadCard from '../components/thread-card';
 import {
   toggleSubredditThreadCardExpandThumbnail,
   fetchSubredditThreads,

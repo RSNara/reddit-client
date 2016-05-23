@@ -1,6 +1,6 @@
 import immutableToJS from './immutable-to-js';
-import test from 'ava';
 import { fromJS } from 'immutable';
+import test from 'ava';
 
 const mockState = {
   state: {
