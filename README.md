@@ -1,6 +1,5 @@
-[![Stories in Ready](https://badge.waffle.io/rsnara/reddit-client.png?label=ready&title=Ready)](https://waffle.io/rsnara/reddit-client)
-# Reddit Client [![Build Status](https://travis-ci.org/rsnara/reddit-client.svg?branch=master)](https://travis-ci.org/rsnara/reddit-client) [![Coverage Status](https://coveralls.io/repos/github/rsnara/reddit-client/badge.svg?branch=master)](https://coveralls.io/github/rsnara/reddit-client?branch=master)
- [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+# Reddit Client 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Build Status](https://travis-ci.org/rsnara/reddit-client.svg?branch=master)](https://travis-ci.org/rsnara/reddit-client) [![Coverage Status](https://coveralls.io/repos/github/rsnara/reddit-client/badge.svg?branch=master)](https://coveralls.io/github/rsnara/reddit-client?branch=master) [![Stories in Ready](https://badge.waffle.io/rsnara/reddit-client.png?label=ready&title=Ready)](https://waffle.io/rsnara/reddit-client)
 
 A simple read-only reddit client built with [React](https://github.com/facebook/react) and [Redux](https://github.com/reactjs/redux).
 
