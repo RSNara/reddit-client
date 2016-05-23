@@ -23,7 +23,7 @@ const ThreadCard = ({
   const author = data.get('author', '');
   const createdAt = data.get('created_utc', Date.now());
   const isStickied = data.get('stickied', false);
-  const showThumbnail = !(data.get('is_self') && ! data.get('thumbnail'));
+  const showThumbnail = !data.get('is_self') && !!data.get('thumbnail');
   return (
     <CardContainer stickied={isStickied}>
       <div className="flex items-center">
