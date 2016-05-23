@@ -21,7 +21,7 @@ const ThreadCard = ({
   const commentsLink = getLinkToComments(subreddit, thread);
   const expandPreview = shouldExpandThumbnail();
   const author = data.get('author', '');
-  const createdAt = data.get('created_utc', Date.now());
+  const createdAt = data.get('created_utc', Date.now() / 1000);
   const isStickied = data.get('stickied', false);
   const showThumbnail = !data.get('is_self') && !!data.get('thumbnail');
   return (
