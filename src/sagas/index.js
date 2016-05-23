@@ -1,6 +1,6 @@
 import { takeEvery } from 'redux-saga';
 import { put } from 'redux-saga/effects';
-import { SUBREDDITS } from '../constants';
+import { SUBREDDITS, FRONT_PAGE_NAME } from '../constants';
 import { expect } from 'chai';
 import {
   saveDefaultSubreddits,
@@ -28,8 +28,15 @@ function* fetchDefaultSubreddits() {
   yield put(saveDefaultSubreddits(subreddits.data.children));
 }
 
+function getSubredditThreadsURL(subreddit, count, after, filter) {
+  if (subreddit === FRONT_PAGE_NAME) {
+    return `/reddit/${filter}?count=${count}&after=${after}`;
+  }
+  return `/reddit/r/${subreddit}/${filter}?count=${count}&after=${after}`;
+}
+
 function* fetchSubredditThreads({ payload: { subreddit, count, after, filter } }) {
-  const response = yield fetch(`/reddit/r/${subreddit}/${filter}?count=${count}&after=${after}`);
+  const response = yield fetch(getSubredditThreadsURL(subreddit, count, after, filter));
   const threads = yield response.json();
   yield put(saveSubredditThreads(subreddit, threads.data.children, filter));
   yield put(saveSubredditLastFetchedThreadName(subreddit, last(threads.data.children).data.name, filter));
