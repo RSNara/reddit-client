@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { FRONT_PAGE_NAME } from '../constants';
 import cx from 'classnames';
 
 const SubredditFilterLink = ({ subreddit, filter, active }) => {
   return (
     <div className="pr1">
-      <Link to={`/r/${subreddit}/${filter}`}>
+      <Link to={getSubredditFilterLink(subreddit, filter)}>
         <button
           type="button"
           className={ cx('btn btn-primary', { 'bg-gray': !active }) }>
@@ -15,6 +16,14 @@ const SubredditFilterLink = ({ subreddit, filter, active }) => {
     </div>
   );
 };
+
+function getSubredditFilterLink(subreddit, filter) {
+  if (subreddit === FRONT_PAGE_NAME) {
+    return `/${filter}`;
+  }
+
+  return `/r/${subreddit}/${filter}`;
+}
 
 SubredditFilterLink.propTypes = {
   subreddit: PropTypes.string.isRequired,

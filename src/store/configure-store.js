@@ -3,6 +3,8 @@ import { fromJS } from 'immutable';
 import persistState from 'redux-localstorage';
 import thunk from 'redux-thunk';
 import promiseMiddleware from '../middleware/promise-middleware';
+import { browserHistory } from 'react-router';
+import { routerMiddleware } from 'react-router-redux';
 import logger from './logger';
 import rootReducer from '../reducers';
 import createSagaMiddleware from 'redux-saga';
@@ -20,6 +22,7 @@ function configureStore(initialState) {
 
 function _getMiddleware() {
   let middleware = [
+    routerMiddleware(browserHistory),
     promiseMiddleware,
     thunk,
   ];
