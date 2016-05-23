@@ -10,6 +10,6 @@ import requireHacker from 'require-hacker';
   'eot',
   'css',
   'svg',
-].forEach(type => {
+].forEach((type) => {
   requireHacker.hook(type, () => 'module.exports = ""');
 });

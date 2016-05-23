@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 const Main = ({ defaultSubredditTitles, children }) => {
   return (
     <div>
-      <div className="flex bg-silver">
+      <div className="flex bg-silver fit overflow-scroll">
         {
           defaultSubredditTitles.map((title, i) => (
             <Link className="h6 btn btn-outline p0 mx1" key={i} to={`/r/${title}`}> {title} </Link>
