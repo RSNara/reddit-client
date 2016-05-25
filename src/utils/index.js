@@ -1,5 +1,5 @@
 import { Map, Set } from 'immutable';
-import { last, head, compose, prop, values, clone} from 'ramda';
+import { last, head, compose, prop, values, clone } from 'ramda';
 
 export function indexById(list) {
   return list.reduce((table, value) => (
