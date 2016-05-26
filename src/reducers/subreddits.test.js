@@ -37,21 +37,21 @@ test('SAVE_THREADS should set the thread(s) correctly without filters', t => {
 
   t.true(
     foo.has('abc'),
-    'should have the given thread'
+    'does not have the given thread'
   );
   t.is(
     foo.getIn(['abc', 'filters']).size,
     0,
-    'should have an empty array of filters'
+    'does not have the the correct number of filters'
   );
   t.true(
     foo.has('def'),
-    'should have both the given threads'
+    'does not have both the given threads'
   );
   t.is(
     foo.getIn(['def', 'filters']).size,
     0,
-    'should have an empty array of filters'
+    'both threads should have an empty array of filters'
   );
 });
 
@@ -67,8 +67,15 @@ test('SAVE_THREADS should set the thread(s) correctly with filters', t => {
   });
 
   const bar = t.context.state.getIn(['threads', 'bar']);
-  t.true(bar.has('baz'), 'should have the given thread');
-  t.deepEqual(bar.getIn(['baz', 'filters']).toArray(), ['foo'], 'should have the correct filter');
+  t.true(
+    bar.has('baz'),
+    'does not have the given thread'
+  );
+  t.deepEqual(
+    bar.getIn(['baz', 'filters']).toArray(),
+    ['foo'],
+    'should have the correct filter'
+  );
 });
 
 test('SAVE_THREAD_COMMENTS should set the comments correctly', t => {
@@ -107,7 +114,7 @@ test('TOGGLE_THREAD_COMMENT_EXPAND_CHILDREN should properly toggle', t => {
   });
   t.false(
     t.context.state.getIn(['expandChildren', 'bar', 'foo', 'hello']),
-    'should be toggled off since it was true by default'
+    'did not toggle off as expected since it was true by default'
   );
 
   t.context.state = fireAction(subreddits, t.context.state, SUBREDDITS.TOGGLE_THREAD_COMMENT_EXPAND_CHILDREN, {
@@ -117,7 +124,7 @@ test('TOGGLE_THREAD_COMMENT_EXPAND_CHILDREN should properly toggle', t => {
   });
   t.true(
     t.context.state.getIn(['expandChildren', 'bar', 'foo', 'hello']),
-    'should be toggled back on'
+    'did not toggle back back on'
   );
 });
 
@@ -131,14 +138,20 @@ test('DELETE_THREAD_COMMENT should remove the given comment', t => {
     thread: 'bar',
     subreddit: 'foo',
   });
-  t.true(t.context.state.getIn(['comments', 'foo', 'bar', 'baz']).has('data'));
+  t.true(
+    t.context.state.getIn(['comments', 'foo', 'bar', 'baz']).has('data'),
+    'does not have the given comment to begin with'
+  );
 
   t.context.state = fireAction(subreddits, t.context.state, SUBREDDITS.DELETE_THREAD_COMMENT, {
     subreddit: 'foo',
     thread: 'bar',
     comment: 'baz',
   });
-  t.false(t.context.state.getIn(['comments', 'foo', 'bar']).has('baz'));
+  t.false(
+    t.context.state.getIn(['comments', 'foo', 'bar']).has('baz'),
+    'did not delete the specified comment'
+  );
 });
 
 test('TOGGLE_THREAD_CARD_EXPAND_THUMBNAIL should properly toggle', t => {
@@ -149,7 +162,7 @@ test('TOGGLE_THREAD_CARD_EXPAND_THUMBNAIL should properly toggle', t => {
   });
   t.true(
     t.context.state.getIn(['expandThumbnail', 'bar', 'foo']),
-    'should be toggled on since it was false by default'
+    'was not toggled on as it was false by default'
   );
 
   t.context.state = fireAction(subreddits, t.context.state, SUBREDDITS.TOGGLE_THREAD_CARD_EXPAND_THUMBNAIL, {
@@ -159,7 +172,7 @@ test('TOGGLE_THREAD_CARD_EXPAND_THUMBNAIL should properly toggle', t => {
   });
   t.false(
     t.context.state.getIn(['expandThumbnail', 'bar', 'foo']),
-    'should be toggled back off'
+    'was not toggled back off'
   );
 });
 
