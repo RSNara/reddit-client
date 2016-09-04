@@ -137,10 +137,11 @@
   },
   "devDependencies": {
     "ava": "^0.14.0",
+    "commitizen": "^2.8.1",
     "concurrently": "^2.1.0",
     "coveralls": "^2.11.9",
-    "commitizen": "^2.8.1",
-    "cz-conventional-changelog": "^1.1.6"
+    "cz-conventional-changelog": "^1.1.6",
+    "react-loader": "^2.4.0"
   },
   "config": {
     "commitizen": {

@@ -26,6 +26,9 @@ export const SUBREDDITS = createActions('Subreddits', [
   'LAST_FETCHED_THREAD_NAME',
 ]);
 
+export const FETCHING = '@@fetching';
+export const DONE_FETCHING = '@@doneFetching';
+
 function createActions(ns, actions) {
   return Object.freeze(actions.reduce((map, action) => {
     map[action] = `@@${ns}/${action}`;

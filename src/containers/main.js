@@ -3,8 +3,9 @@ import { getDefaultSubredditTitles } from '../selectors/main';
 import { List } from 'immutable';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Loader from 'react-loader';
 
-const Main = ({ defaultSubredditTitles, children }) => {
+const Main = ({ defaultSubredditTitles, children, fetching }) => {
   return (
     <div>
       <div className="flex bg-silver fit overflow-scroll">
@@ -16,7 +17,9 @@ const Main = ({ defaultSubredditTitles, children }) => {
         }
       </div>
       <div className="p3">
-        { children }
+        <Loader loaded={!fetching}>
+          {children}
+        </Loader>
       </div>
     </div>
   );
@@ -26,10 +29,12 @@ Main.propTypes = {
   defaultSubredditTitles: PropTypes.instanceOf(List).isRequired,
   dispatch: PropTypes.func.isRequired,
   children: PropTypes.node,
+  fetching: PropTypes.bool.isRequired,
 };
 
 export default connect(
   (state) => ({
+    fetching: state.fetching,
     defaultSubredditTitles: getDefaultSubredditTitles(state),
   }),
 )(Main);

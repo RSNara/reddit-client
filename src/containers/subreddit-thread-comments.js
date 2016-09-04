@@ -98,17 +98,17 @@ const SubredditThreadComments = ({
           moreComment
             ? <FetchCommentsLink
                 childCount={moreComment.getIn(['data', 'count'], 0)}
-                fetchComments={() => (
+                fetchComments={() => {
                   dispatch(fetchSubredditThreadMoreRootComments(
                     subreddit,
                     data.get('id'),
                     data.get('name'),
                     moreComment.getIn(['data', 'children'], List()).join(',')
-                  )),
+                  ));
                   dispatch(deleteSubredditThreadComment(
                     subreddit, data.get('id'), moreComment.getIn(['data', 'id'])
-                  ))
-                )} />
+                  ));
+                }} />
             : null
         }
       </section>

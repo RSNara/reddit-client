@@ -1,4 +1,16 @@
-import { SUBREDDITS } from '../constants';
+import { SUBREDDITS, FETCHING, DONE_FETCHING } from '../constants';
+
+export function setFetching() {
+  return {
+    type: FETCHING,
+  };
+}
+
+export function setDoneFetching() {
+  return {
+    type: DONE_FETCHING,
+  };
+}
 
 export function saveDefaultSubreddits(subreddits) {
   return {

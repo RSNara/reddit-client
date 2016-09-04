@@ -3,6 +3,8 @@ import { put } from 'redux-saga/effects';
 import { SUBREDDITS, FRONT_PAGE_NAME } from '../constants';
 import { expect } from 'chai';
 import {
+  setFetching,
+  setDoneFetching,
   saveDefaultSubreddits,
   saveSubredditThreads,
   saveSubredditThreadComments,
@@ -14,12 +16,20 @@ import { last } from 'ramda';
 
 export default function* root() {
   yield [
-    takeEvery(SUBREDDITS.FETCH_DEFAULT, fetchDefaultSubreddits),
-    takeEvery(SUBREDDITS.FETCH_THREADS, fetchSubredditThreads),
-    takeEvery(SUBREDDITS.FETCH_THREAD_COMMENTS, fetchSubredditThreadComments),
+    takeEvery(SUBREDDITS.FETCH_DEFAULT, dispatchFetching(fetchDefaultSubreddits)),
+    takeEvery(SUBREDDITS.FETCH_THREADS, dispatchFetching(fetchSubredditThreads)),
+    takeEvery(SUBREDDITS.FETCH_THREAD_COMMENTS, dispatchFetching(fetchSubredditThreadComments)),
     takeEvery(SUBREDDITS.FETCH_THREAD_MORE_COMMENTS, fetchSubredditThreadMoreComments),
     takeEvery(SUBREDDITS.FETCH_THREAD_MORE_ROOT_COMMENTS, fetchSubredditThreadMoreRootComments),
   ];
+}
+
+function dispatchFetching(gen) {
+  return function *fetcher(...args) {
+    yield put(setFetching());
+    yield* gen(...args);
+    yield put(setDoneFetching());
+  };
 }
 
 function* fetchDefaultSubreddits() {
