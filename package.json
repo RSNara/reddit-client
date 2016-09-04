@@ -117,7 +117,8 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.10.0",
     "webpack-split-by-path": "0.0.8",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "react-loader": "^2.4.0"
   },
   "keywords": [
     "react",
@@ -137,8 +138,7 @@
     "commitizen": "^2.8.1",
     "concurrently": "^2.1.0",
     "coveralls": "^2.11.9",
-    "cz-conventional-changelog": "^1.1.6",
-    "react-loader": "^2.4.0"
+    "cz-conventional-changelog": "^1.1.6"
   },
   "config": {
     "commitizen": {
