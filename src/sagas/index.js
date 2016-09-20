@@ -1,5 +1,5 @@
 import { takeEvery } from 'redux-saga';
-import { put } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 import { SUBREDDITS, FRONT_PAGE_NAME } from '../constants';
 import { expect } from 'chai';
 import {
@@ -33,7 +33,7 @@ function dispatchFetching(gen) {
 }
 
 function* fetchDefaultSubreddits() {
-  const response = yield fetch('/reddit/subreddits');
+  const response = yield call(fetch, '/reddit/subreddits');
   const subreddits = yield response.json();
   yield put(saveDefaultSubreddits(subreddits.data.children));
 }
@@ -46,14 +46,14 @@ function getSubredditThreadsURL(subreddit, count, after, filter) {
 }
 
 function* fetchSubredditThreads({ payload: { subreddit, count, after, filter } }) {
-  const response = yield fetch(getSubredditThreadsURL(subreddit, count, after, filter));
+  const response = yield call(fetch, getSubredditThreadsURL(subreddit, count, after, filter));
   const threads = yield response.json();
   yield put(saveSubredditThreads(subreddit, threads.data.children, filter));
   yield put(saveSubredditLastFetchedThreadName(subreddit, last(threads.data.children).data.name, filter));
 }
 
 function* fetchSubredditThreadComments({ payload: { subreddit, thread } }) {
-  const response = yield fetch(`/reddit/r/${subreddit}/comments/${thread}`);
+  const response = yield call(fetch, `/reddit/r/${subreddit}/comments/${thread}`);
   const comments = yield response.json();
   expect(comments).to.have.length(2); // first item is the thread
   yield put(saveSubredditThreads(subreddit, comments[0].data.children, null));
